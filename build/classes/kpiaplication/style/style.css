@@ -1,0 +1,31 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23.05.2016, 23:20:26
+    Author     : Алексей
+*/
+
+.rrc_column_class.table-cell { 
+    -fx-text-fill: red;
+    -fx-font-size: 16;
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
+}
+.googleClass  > .label{
+    -fx-graphic: url("img/1466207085_chrome.png");
+}
+.excel_icon_class > .label{
+    -fx-graphic: url("img/excel.png");
+}
+.seachButtonClass{
+    -fx-graphic: url("img/search.png");
+}
+.searchTooltipClass{
+    -fx-background-radius: 7 7 7 7;
+
+}
+
+

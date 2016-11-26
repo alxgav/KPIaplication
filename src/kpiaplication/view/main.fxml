@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpiaplication.controller.MainController">
+   <stylesheets>
+        <URL value="@/kpiaplication/style/style.css" />
+    </stylesheets>
+    <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <TextField fx:id="seachtext" onKeyPressed="#seachtextProcess" prefHeight="25.0" prefWidth="445.0" promptText="Пошук" styleClass="searchPMKClass" />
+            <Button fx:id="addOrderButton" mnemonicParsing="false" onAction="#addOrderButtonAction" text="Додати" />
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+            <Button fx:id="deleteOrderButton" mnemonicParsing="false" onAction="#deleteOrderButtonAction" text="Видалити замовлення" />
+         </items></ToolBar>
+   </top>
+   <center>
+       <TabPane fx:id="tabMain" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Ціни по постачальникам">
+            <content>
+               <TableView fx:id="mainTable" onKeyPressed="#mainTableKeyPressed" prefHeight="580.0" prefWidth="646.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="kodColumn" editable="false" prefWidth="75.0" text="КОД" />
+                      <TableColumn fx:id="artColumn" editable="false" prefWidth="75.0" text="Артикул" />
+                        <TableColumn fx:id="deskColumn" prefWidth="75.0" text="Наименование " />
+                        <TableColumn fx:id="magColumn" editable="false" prefWidth="75.0" text="Склад" />
+                        <TableColumn fx:id="priceColumn" prefWidth="175.0" text="ЦІНИ">
+                           <columns>
+                              <TableColumn id="rrc_column" fx:id="price1Col" editable="true" prefWidth="83.0" styleClass="rrc_column_class" text="РРЦ" />
+                              <TableColumn fx:id="price2Col" prefWidth="67.0" text="Ціна" />
+                           </columns></TableColumn>
+                        <TableColumn fx:id="kategColumn" prefWidth="60.0" text="Категорія">
+                          <cellValueFactory><PropertyValueFactory property="kpiaplication.data.db.kateg" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="postachColumn" prefWidth="65.0" text="Постачальник" />
+                        <TableColumn fx:id="statusColumn" prefWidth="75.0" text="статус">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="status" /> 
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                              <MenuItem fx:id="googleMenu" mnemonicParsing="false" onAction="#googleMenuAction" styleClass="googleClass" text="Запитати GOOOOOOGLA" />
+                              <MenuItem fx:id="rozetkam" mnemonicParsing="false" onAction="#rozetkamAction" styleClass="rozetkaClass" text="ROZETKA" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <Menu mnemonicParsing="false" text="КОПІЮВАТИ">
+                                <items>
+                                    <MenuItem fx:id="mcopeArt" mnemonicParsing="false" onAction="#mcopeArtAction" text="АРТИКУЛ" />
+                                  <MenuItem fx:id="mcopyKod" mnemonicParsing="false" onAction="#mcopyKodAction" text="КОД" />
+                                    <MenuItem fx:id="mcopyDeskr" mnemonicParsing="false" onAction="#mcopyDeskrAction" text="НАЙМЕНУВАННЯ" />
+                                </items>
+                              </Menu>
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </TableView>
+            </content>
+          </Tab>
+          <Tab text="Замовлення">
+            <content>
+              
+            </content>
+               <content>
+                  <TableView fx:id="orderTable" editable="true" onMouseClicked="#orderTableClicked" prefHeight="531.0" prefWidth="642.0">
+                    <columns>
+                        <TableColumn fx:id="dateOrderColumn" prefWidth="75.0" text="Дата замовлення" />
+                      <TableColumn fx:id="kodOrderColumn" prefWidth="92.0" text="Код" />
+                      <TableColumn fx:id="DeskrOrderColumn" prefWidth="237.0" text="Найменування" />
+                        <TableColumn fx:id="PostachOrderColumn" prefWidth="118.0" text="Постачальник" />
+                        <TableColumn fx:id="stOrderColumn" prefWidth="75.0" text="ШТ" />
+                        <TableColumn fx:id="PriceOrderColumn" prefWidth="71.0" text="Ціна" />
+                        <TableColumn fx:id="SumaOrderColumn" prefWidth="75.0" text="Сума" />
+                        <TableColumn fx:id="ShopOrderColumn" prefWidth="75.0" text="Магазин" />
+                    </columns>
+                  </TableView>
+               </content>
+          </Tab>
+            <Tab fx:id="settingTab" disable="true" text="Налаштування">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="userText" layoutX="14.0" layoutY="22.0" promptText="USER" />
+                        <PasswordField fx:id="password1" layoutX="14.0" layoutY="52.0" promptText="PASSWORD" />
+                        <PasswordField fx:id="password2" layoutX="14.0" layoutY="85.0" promptText="PASSWORD 2" />
+                        <Button fx:id="createeditButton" layoutX="14.0" layoutY="389.0" mnemonicParsing="false" onAction="#createeditButtonAction" prefHeight="25.0" prefWidth="151.0" text="СТВОРИТИ/ЗМІНИТИ" />
+                        <ComboBox fx:id="shopBox" layoutX="14.0" layoutY="122.0" prefWidth="150.0" promptText="МАГАЗИНИ" />
+                        <CheckBox fx:id="status" layoutX="14.0" layoutY="159.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" text="СТАТУС" />
+                        <Button fx:id="addShopButton" layoutX="171.0" layoutY="122.0" mnemonicParsing="false" onAction="#addShopButtonAction" text="Додати магазин" />
+                        <ListView fx:id="userList" layoutX="14.0" layoutY="182.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Separator layoutX="284.0" layoutY="22.0" orientation="VERTICAL" prefHeight="439.0" prefWidth="10.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="ПМК">
+              
+             
+               <content>
+                    <BorderPane>
+<center>
+                  <SplitPane dividerPositions="0.6" prefHeight="160.0" prefWidth="200.0">
+                     <items>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <center>
+                              <TableView fx:id="pmkTable" editable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn fx:id="pmkTable_pmk_idColumn" prefWidth="75.0" text="ПМК id">
+                                      <cellValueFactory><PropertyValueFactory property="pmk_id" /></cellValueFactory>
+                                  </TableColumn>
+                                    <TableColumn fx:id="pmkTable_deskr_postachColumn" prefWidth="75.0" text="Найменування">
+                                        <cellValueFactory>
+                                            <PropertyValueFactory property="pmk_deskr" />
+                                        </cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn fx:id="pmkTable_pmk_priceColumn" prefWidth="75.0" text="Ціна ПМК">
+                                        <cellValueFactory><PropertyValueFactory property="pmk_price" /></cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn fx:id="pmkTable_pmk_kategColumn" prefWidth="75.0" text="Категорія">
+                                        <cellValueFactory><PropertyValueFactory property="pmk_kateg" /></cellValueFactory>
+                                    </TableColumn>
+                                </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                 <center>
+                                    <TableView fx:id="postachTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                      <columns>
+                                          <TableColumn fx:id="postachTableCol1" prefWidth="75.0" text="ПОСТАЧАЛЬНИК">
+                                              <cellValueFactory>
+                                                  <PropertyValueFactory property="postach" />
+                                              </cellValueFactory>
+                                          </TableColumn>
+                                          <TableColumn fx:id="postachTableCol2" prefWidth="75.0" text="РРЦ">
+                                              <cellValueFactory>
+                                                  <PropertyValueFactory property="price_postach_rrc" />
+                                              </cellValueFactory>
+                                          </TableColumn>
+                                          <TableColumn fx:id="postachTableCol3" prefWidth="75.0" text="КОД ПОСТАЧАЛЬНИКА">
+                                              <cellValueFactory>
+                                                  <PropertyValueFactory property="kod_postach" />
+                                              </cellValueFactory>
+                                          </TableColumn>
+                                          <TableColumn fx:id="postachTableCol4" prefWidth="75.0" text="АРТ ПОСТАЧАЛЬНИКА">
+                                              <cellValueFactory>
+                                                  <PropertyValueFactory property="art_postach" />
+                                              </cellValueFactory>
+                                          </TableColumn>
+                                      </columns>
+                                    </TableView>
+                                 </center></BorderPane>
+                     </items>
+                  </SplitPane>
+                  </center>
+                     <top>
+                        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <items>
+                              <Button fx:id="edit_pmk" mnemonicParsing="false" onAction="#edit_pmk_action" text="edit" />
+                              <Button fx:id="save_pmk" mnemonicParsing="false" onAction="#save_pmk" text="save" />
+                              <Button fx:id="delete_pmk" mnemonicParsing="false" onAction="#delete_pmk_action" text="delete" />
+                              <TextField fx:id="searchPmk" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="24.0" prefHeight="25.0" prefWidth="240.0" promptText="Пошук по ID" styleClass="searchPMKClass" />
+                          </items>
+                        </ToolBar>
+                     </top>
+                 </BorderPane>
+
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+     
+   </center>
+   <left>
+      <Accordion BorderPane.alignment="CENTER">
+        <panes>
+          <TitledPane animated="false" prefWidth="220.0" text="Пошук">
+            <content>
+                  <VBox spacing="10.0">
+                     <children>
+                        <CheckBox fx:id="postachCheck" mnemonicParsing="false" prefHeight="17.0" prefWidth="179.0" text="Постачальник" />
+                        <ComboBox fx:id="postachBox" prefHeight="25.0" prefWidth="191.0" promptText="Виберіть постачальника" />
+                        <CheckBox fx:id="kategCheck" mnemonicParsing="false" prefHeight="17.0" prefWidth="179.0" text="Категорія" />
+                        <ComboBox fx:id="comboBoxKateg" prefHeight="25.0" prefWidth="191.0" promptText="Виберіть категорію" />
+                        <Button fx:id="seachButton" mnemonicParsing="false" onAction="#seachButtonAction" styleClass="seachButtonClass">
+                           <tooltip>
+                              <Tooltip styleClass="searchTooltipClass" text="ПОШУК" />
+                           </tooltip></Button>
+                        <Label fx:id="sizeLabel" text="Всього в прайсі" textFill="#e40620">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Замовлення">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <DatePicker fx:id="orderDate" layoutX="14.0" layoutY="40.0" onAction="#orderDateAction" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Дата замовлення" />
+                     </children></AnchorPane>
+            </content>
+          </TitledPane>
+          <TitledPane fx:id="loadPrice" animated="false" disable="true" text="Завантаження">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                      <Button fx:id="testButton" layoutX="9.0" layoutY="14.0" mnemonicParsing="false" onAction="#testButtonAction" text="Загрузити прайси" />
+                        <Button fx:id="SettingButton" disable="true" layoutX="14.0" layoutY="167.0" mnemonicParsing="false" onAction="#SettingButtonAction" text="Setting" />
+                        <Separator layoutX="9.0" layoutY="46.0" prefWidth="200.0" />
+                        <Button fx:id="excelOrderButton" layoutX="9.0" layoutY="58.0" mnemonicParsing="false" onAction="#excelOrderButtonAction" prefHeight="22.0" prefWidth="107.0" text="Вигрузити замовленняам" />
+                     </children></AnchorPane>
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </left>
+   <bottom>
+      
+   </bottom>
+</BorderPane>

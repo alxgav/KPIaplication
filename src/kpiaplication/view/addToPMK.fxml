@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="236.0" prefWidth="699.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpiaplication.controller.addToPMKController">
+   <children>
+      <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="500.0">
+         <items>
+            <GridPane hgap="2.0" vgap="2.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="32.0" minHeight="5.0" percentHeight="0.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="0.0" prefHeight="110.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField fx:id="pmk_id" promptText="ПМК ID" />
+                  <TextArea fx:id="pmk_deskr" prefHeight="200.0" prefWidth="200.0" promptText="НАЙМЕНУВАННЯ" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="pmk_kateg" editable="true" prefHeight="25.0" prefWidth="343.0" promptText="КАТЕГОРІЯ" GridPane.rowIndex="2" />
+                  <TextField fx:id="pmk_price" promptText="ЦІНА" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TableView fx:id="postachTable" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="postachTableCol1" prefWidth="105.0" text="КОД  постачальника">
+                          <cellValueFactory>
+                              <PropertyValueFactory property="kod_postach" />
+                          </cellValueFactory>
+
+                      </TableColumn>
+                      <TableColumn fx:id="postachTableCol2" prefWidth="74.0" text="АРТ постачальника">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="art_postach" />
+                        </cellValueFactory>
+                      </TableColumn>
+                        <TableColumn fx:id="postachTableCol3" prefWidth="71.0" text="РРЦ">
+                            <cellValueFactory>
+                                     <PropertyValueFactory property="price_postach_rrc" />
+                            </cellValueFactory>
+                      </TableColumn>
+                        <TableColumn fx:id="postachTableCol4" prefWidth="90.0" text="ПОСТАЧАЛЬНИК">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="postach" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="postachTableCol5" prefWidth="105.0" text="pmk_id">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="pmk_id" />
+                           </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                  </TableView>
+               </children>
+            </GridPane>
+         </items>
+      </SplitPane>
+      <HBox layoutY="186.0" prefHeight="30.0" prefWidth="187.0" spacing="5.0">
+         <children>
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButtonaction" text="ЗБЕРЕГТИ" />
+            <Button fx:id="canselButton" mnemonicParsing="false" onAction="#canselButtonaction" text="ВІДМІНИТИ" />
+         </children>
+         <padding>
+            <Insets bottom="2.0" left="80.0" top="2.0" />
+         </padding>
+         <VBox.margin>
+            <Insets left="450.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>
