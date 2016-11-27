@@ -38,7 +38,7 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
             <TextField fx:id="seachtext" onKeyPressed="#seachtextProcess" prefHeight="25.0" prefWidth="445.0" promptText="Пошук" styleClass="searchPMKClass" />
-            <Button fx:id="addOrderButton" mnemonicParsing="false" onAction="#addOrderButtonAction" text="Додати" />
+            <Button fx:id="addOrderButton" mnemonicParsing="false" onAction="#addOrderButtonAction" styleClass="addOrderButtonClass" text="Додати" />
             <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
             <Button fx:id="deleteOrderButton" mnemonicParsing="false" onAction="#deleteOrderButtonAction" text="Видалити замовлення" />
          </items></ToolBar>

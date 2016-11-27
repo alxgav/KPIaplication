@@ -785,7 +785,7 @@ public class MainController implements Initializable {
         grid.setPadding(new Insets(20, 150, 10, 10));
 
          ObservableList d_login = FXCollections.observableArrayList();
-         GenericRawResults<String[]> rawResults = c.user.queryRaw("SELECT user_name from users");
+         GenericRawResults<String[]> rawResults = c.user.queryRaw("select user_name from users");
         
          for(String res[]:rawResults){
                          d_login.add(res[0]);

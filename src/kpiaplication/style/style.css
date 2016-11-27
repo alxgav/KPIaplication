@@ -46,6 +46,9 @@ and open the template in the editor.
 .searchPMKClass.button:hover {
     -fx-background-image: url("img/search-clear-over.png");
 }
+.addOrderButtonClass {
+
+}
 
 
 

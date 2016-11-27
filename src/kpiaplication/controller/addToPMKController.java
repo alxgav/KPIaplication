@@ -17,6 +17,8 @@ import kpiaplication.data.db.product_postach;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -68,6 +70,7 @@ public class addToPMKController implements Initializable {
         this.product = product;
        // Double p =(product.getPrice()!=0)?product.getPrice():product.getPrice_u();
         pmk_deskr.setText(product.getDeskr());
+
         pmk_id.setText(getLastID());
         try {
             com = new common();
@@ -84,7 +87,7 @@ public class addToPMKController implements Initializable {
         postach.addAll(ppostach);
         postachTable.setItems(postach);
         pmk_kateg.setItems(pmk_kat);
-
+        pmk_price.setText(""+getMinPrice());
 
 
     }
@@ -104,6 +107,7 @@ public class addToPMKController implements Initializable {
 
     private String getLastID() {
         String result;
+
         try {
             com = new common();
             QueryBuilder<pmk_product_id,String> builder = com.pmk_product_id.queryBuilder();
@@ -118,9 +122,19 @@ public class addToPMKController implements Initializable {
         }else{
             id=pmk.getId()+1;
         }
-        result = ""+id;
-
+        result = String.format("%06d",id);
         return result;
+    }
+
+    private Double getMinPrice(){
+            Double min=0.0;
+            ArrayList<Double> data = new ArrayList();
+            data.clear();
+            for(int i=0;i<=postach.size()-1;i++){
+               data.add(postach.get(i).getPrice_postach_rrc());
+            }
+            min = Collections.min(data);
+            return min;
     }
 
     public void saveButtonaction(ActionEvent actionEvent) throws SQLException {
