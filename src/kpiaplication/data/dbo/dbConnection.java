@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class dbConnection {
     
     //final String databaseUrl = "jdbc:sqlite:db/kpidb.db"; 
-    final String databaseUrl = "jdbc:mysql://192.168.0.103:3306/kpidb";
+    final String databaseUrl = "jdbc:mysql://127.0.0.1:3306/kpidb";
     ConnectionSource con;
      public dbConnection() {
          try {

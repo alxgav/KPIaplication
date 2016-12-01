@@ -575,8 +575,8 @@ public class excel {
  
     private String setStatus(String kod,Double price) throws SQLException{
        String b="";
-       GenericRawResults<String[]> rawResults = c.pmk_product_id.queryRaw("SELECT kod_postach from pmk_product_id where kod_postach='"+kod+"'");
-       GenericRawResults<String[]> priceResults = c.pmk_product_id.queryRaw("SELECT price from pmk_product_id where kod_postach='"+kod+"'");
+       GenericRawResults<String[]> rawResults = c.pmk_product_id.queryRaw("SELECT kod_postach from product_postach where kod_postach='"+kod+"'");
+       GenericRawResults<String[]> priceResults = c.pmk_product_id.queryRaw("SELECT price_postach_rrc from product_postach where kod_postach='"+kod+"'");
        if(rawResults.getFirstResult()==null){
            b="НОВЕ ПОСТУПЕЛННЯ"; 
        } 

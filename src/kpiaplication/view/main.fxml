@@ -117,10 +117,12 @@
                         <PasswordField fx:id="password2" layoutX="14.0" layoutY="85.0" promptText="PASSWORD 2" />
                         <Button fx:id="createeditButton" layoutX="14.0" layoutY="389.0" mnemonicParsing="false" onAction="#createeditButtonAction" prefHeight="25.0" prefWidth="151.0" text="СТВОРИТИ/ЗМІНИТИ" />
                         <ComboBox fx:id="shopBox" layoutX="14.0" layoutY="122.0" prefWidth="150.0" promptText="МАГАЗИНИ" />
-                        <CheckBox fx:id="status" layoutX="14.0" layoutY="159.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" text="СТАТУС" />
-                        <Button fx:id="addShopButton" layoutX="171.0" layoutY="122.0" mnemonicParsing="false" onAction="#addShopButtonAction" text="Додати магазин" />
+                        <CheckBox fx:id="status" layoutX="14.0" layoutY="159.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" text="АДМІНІСТРАТОР" />
+                        <Button fx:id="addShopButton" layoutX="173.0" layoutY="52.0" mnemonicParsing="false" onAction="#addShopButtonAction" prefHeight="25.0" prefWidth="106.0" text="Додати магазин" />
                         <ListView fx:id="userList" layoutX="14.0" layoutY="182.0" prefHeight="200.0" prefWidth="200.0" />
                         <Separator layoutX="284.0" layoutY="22.0" orientation="VERTICAL" prefHeight="439.0" prefWidth="10.0" />
+                        <Button fx:id="addUserButton" layoutX="171.0" layoutY="22.0" mnemonicParsing="false" onAction="#addUserButtonAction" prefHeight="15.0" prefWidth="107.0" text="Додати користувача" />
+                        <Button fx:id="deleteShopButton" layoutX="171.0" layoutY="85.0" mnemonicParsing="false" onAction="#deleteShopButtonAction" prefHeight="25.0" prefWidth="109.0" text="Видалити магазин" />
                      </children>
                   </AnchorPane>
               </content>
