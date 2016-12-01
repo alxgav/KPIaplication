@@ -2,6 +2,7 @@ package kpiaplication.controller;
 
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -57,6 +58,7 @@ public class addToPMKController implements Initializable {
     private ObservableList pmk_kat = FXCollections.observableArrayList();
     private Stage dialogStage;
     private final ObservableList<product_postach> postach = FXCollections.observableArrayList();
+    int status = 1;
         @Override
         public void initialize(URL url, ResourceBundle rb) {
             // TODO
@@ -68,7 +70,8 @@ public class addToPMKController implements Initializable {
 
     public void setPMKID(Product product, List<product_postach> ppostach) {
         this.product = product;
-       // Double p =(product.getPrice()!=0)?product.getPrice():product.getPrice_u();
+        status=1;
+     //  Double p =(product.getPrice()!=0)?product.getPrice():product.getPrice_u();
         pmk_deskr.setText(product.getDeskr());
 
         pmk_id.setText(getLastID());
@@ -88,6 +91,19 @@ public class addToPMKController implements Initializable {
         postachTable.setItems(postach);
         pmk_kateg.setItems(pmk_kat);
         pmk_price.setText(""+getMinPrice());
+
+
+    }
+
+    public  void setPMKID(ObservableList<pmk_product_id> pmk,ObservableList<product_postach> postach){
+            status=2;
+            pmk_id.setText(pmk.get(0).getPmk_id());
+            pmk_deskr.setText(pmk.get(0).getPmk_deskr());
+            pmk_kateg.setValue(pmk.get(0).getPmk_kateg());
+            pmk_price.setText(""+pmk.get(0).getPmk_price());
+//            postach.clear();
+//            postach.addAll(pp);
+            postachTable.setItems(postach);
 
 
     }
@@ -139,27 +155,38 @@ public class addToPMKController implements Initializable {
 
     public void saveButtonaction(ActionEvent actionEvent) throws SQLException {
         com = new common();
-        List<product_postach> a =  postachTable.getItems();
 
-        pmk = new pmk_product_id(pmk_id.getText(),
-                ""+pmk_kateg.getSelectionModel().getSelectedItem(),
-                pmk_deskr.getText(),
-                Double.valueOf(pmk_price.getText()));
-        ppostach = new product_postach();
-        if(!isFound(pmk_id.getText())){
-            com.pmk_product_id.create(pmk);
-           for(int i=0;i<=a.size()-1;i++){
+        if(status==1){
+            List<product_postach> a =  postachTable.getItems();
 
-               com.product_postach.create(new product_postach(pmk_id.getText(),
-                       a.get(i).getPostach(),
-                       a.get(i).getPrice_postach_rrc(),
-                       a.get(i).getKod_postach(),
-                       a.get(i).getArt_postach()));
-           }
+            pmk = new pmk_product_id(pmk_id.getText(),
+                    ""+pmk_kateg.getSelectionModel().getSelectedItem(),
+                    pmk_deskr.getText(),
+                    Double.valueOf(pmk_price.getText()));
+            ppostach = new product_postach();
+            if(!isFound(pmk_id.getText())){
+                com.pmk_product_id.create(pmk);
+                for(int i=0;i<=a.size()-1;i++){
+
+                    com.product_postach.create(new product_postach(pmk_id.getText(),
+                            a.get(i).getPostach(),
+                            a.get(i).getPrice_postach_rrc(),
+                            a.get(i).getKod_postach(),
+                            a.get(i).getArt_postach()));
+                }
 
 
-        } else{
-            new message().messgaeDLG("Знайдено","Знайдено ПМК","Знайдено співпадіння з ID:"+pmk_id.getText());
+            } else{
+                new message().messgaeDLG("Знайдено","Знайдено ПМК","Знайдено співпадіння з ID:"+pmk_id.getText());
+            }
+        }else{
+            UpdateBuilder<pmk_product_id,String> ub = com.pmk_product_id.updateBuilder();
+            ub.where().eq("pmk_id",pmk_id.getText());
+            ub.updateColumnValue("pmk_kateg",pmk_kateg.getSelectionModel().getSelectedItem());
+            ub.updateColumnValue("pmk_deskr",pmk_deskr.getText());
+            ub.updateColumnValue("pmk_price",pmk_price.getText());
+            ub.updateColumnValue("pmk_id",pmk_id.getText());
+            ub.update();
         }
 
         dialogStage.close();
@@ -168,5 +195,7 @@ public class addToPMKController implements Initializable {
     public void canselButtonaction(ActionEvent actionEvent) {
         dialogStage.close();
     }
+
+
 }
 

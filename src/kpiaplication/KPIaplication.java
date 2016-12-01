@@ -6,6 +6,7 @@
 package kpiaplication;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kpiaplication.controller.addToPMKController;
 import kpiaplication.data.db.Product;
+import kpiaplication.data.db.pmk_product_id;
 import kpiaplication.data.db.product_postach;
 
 import java.awt.*;
@@ -69,6 +71,32 @@ public class KPIaplication extends Application {
             e.printStackTrace();
         }
     }
+    //edit
+    public void showaddToPMK(ObservableList<pmk_product_id> pmk, ObservableList<product_postach> postach){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(KPIaplication.class.getResource("/kpiaplication/view/addToPMK.fxml"));
+
+        try {
+            VBox page = loader.load();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Додати до ПМК");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setResizable(false);
+            dialogStage.setIconified(false);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            addToPMKController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setPMKID(pmk,postach);
+
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * @param args the command line arguments

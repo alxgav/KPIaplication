@@ -108,7 +108,7 @@ public class excel {
                              setValue(pu.getValue(), 0),pr.getValue(),
                             c.postach[0],
                             type,
-                                 setStatus(""+Double.toString(kod).substring(0, Double.toString(kod).length()-2),pr.getValue()));
+                                 setStatus(""+Double.toString(kod).substring(0, Double.toString(kod).length()-2),pr.getValue()),"");
                          c.produkt.create(p);
                          
                     }
@@ -130,7 +130,8 @@ public class excel {
             deleteBuilder.where().eq("postach", c.postach[1]);
             deleteBuilder.delete();
         Workbook workbook = Workbook.getWorkbook(new File(file));
-        String type =" ";
+        String kateg =" ";
+        String kateg2 =" ";
             Sheet sheet = workbook.getSheet(0);
             System.out.println(sheet.getRows()+"| RL"); 
             int row = 4;
@@ -141,9 +142,12 @@ public class excel {
                 Cell  E= sheet.getCell(3,row);//desk
                 Cell  F= sheet.getCell(6,row);//price rrc
                 Cell  G= sheet.getCell(5,row);//price_u
+                Cell  I= sheet.getCell(8,row);// garantija
                 if((A.getCellFormat().getFont().getName().equalsIgnoreCase("Baskerville Old Face"))&&(A.getCellFormat().getFont().getPointSize()==16)){
-                    type = A.getContents();
-                   
+                    kateg = A.getContents();
+                }
+                if((A.getCellFormat().getFont().getName().equalsIgnoreCase("Baskerville Old Face"))&&(A.getCellFormat().getFont().getPointSize()==15)){
+                    kateg2 = A.getContents();
                 }
                 
                 if(A.getContents().startsWith("00")){
@@ -151,43 +155,32 @@ public class excel {
                     Double price_u =0.00;
                     if(F.getContents().equals("")){
                         price =0.00;
-                       // System.out.println("0.00_price");
                     } else{
-//                        price = Double.valueOf(F.getContents().replace(",", "."));
                         NumberCell pr = (NumberCell)F;
                         price = pr.getValue();
                     }
                     if(G.getContents().equals("")){
                         price_u=0.00;
-                       // System.out.println("0.00_price_u");
                     }else{
-//                        price_u = Double.valueOf(G.getContents().replace(",", "."));
                         NumberCell pu = (NumberCell)G;
                         price_u = pu.getValue();
                     }
-//                            if(!F.getContents().equals("")&&!G.getContents().equals("")){
-//                              NumberCell pr = (NumberCell)F;
-//                              price = pr.getValue();
-//                              NumberCell pu = (NumberCell)G;
-//                              price_u = pu.getValue();
-//                            }
-//                            if(price!=0){
-                            
                                p= new Product(A.getContents(),
                                 B.getContents(),
                                 E.getContents(),
                                 "",
                                 setValue(price,0),price_u,
                                 c.postach[1],
-                                type,
-                                setStatus(""+A.getContents(),setValue(price,0)));
+                                kateg,
+                                setStatus(""+A.getContents(),setValue(price,0)),
+                                       I.getContents().toString(),kateg2);
                        c.produkt.create(p);  
 //                            }
                     size_col++;
                 }
                 row++;
             }
-            System.out.println("RL| "+size_col);
+         //   System.out.println("RL| "+size_col);
     }
     
      public  void CYFRO_excel(String file) throws IOException, BiffException, SQLException{
@@ -225,7 +218,7 @@ public class excel {
                                 setValue(price,0),price_u,//price
                                 c.postach[2],
                                 row.getCell(0).getStringCellValue(),
-                                       setStatus(""+kod,setValue(price,0)));//type
+                                       setStatus(""+kod,setValue(price,0)),"");//type
                                 c.produkt.create(p); 
                            }
                           
@@ -276,7 +269,7 @@ public class excel {
                                 setValue(price,0),price_u,//price
                                 c.postach[4],
                                 type,
-                                        setStatus(""+kod.substring(0, kod.length()-2),setValue(price,0)));
+                                        setStatus(""+kod.substring(0, kod.length()-2),setValue(price,0)),"");
                                 c.produkt.create(p);
                            }
                        }
@@ -312,7 +305,7 @@ public class excel {
                             Double.valueOf(row[4].replace(",", ".")),price_u,
                                c.postach[3],
                                row[2],
-                               "");   
+                               "","");
                      c.produkt.create(p);
                   }
                    
@@ -424,7 +417,7 @@ public class excel {
                             dekr,
                             I.getContents(), Precision.round(price, 0, BigDecimal.ROUND_HALF_UP), Precision.round(price_u, 2, BigDecimal.ROUND_HALF_UP),
                             c.postach[5],kategorija,
-                                     setStatus(K.getContents(), Precision.round(price, 0, BigDecimal.ROUND_HALF_UP)));
+                                     setStatus(K.getContents(), Precision.round(price, 0, BigDecimal.ROUND_HALF_UP)),"");
                          c.produkt.create(p);
                          }
                         

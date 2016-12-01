@@ -37,13 +37,17 @@ public class Product  {
     private String kateg;
     @DatabaseField
     private String status;
+    @DatabaseField
+    private String garant;
+    @DatabaseField
+    private String kateg2;
   
    
 
     public Product() {
     }
 
-    public Product(String kod, String artPost, String deskr, String magazin, Double price, Double price_u, String postach, String kateg, String status) {
+    public Product(String kod, String artPost, String deskr, String magazin, Double price, Double price_u, String postach, String kateg, String status, String garant) {
         this.kod = kod;
         this.artPost = artPost;
         this.deskr = deskr;
@@ -53,10 +57,22 @@ public class Product  {
         this.postach = postach;
         this.kateg = kateg;
         this.status = status;
-       
+        this.garant = garant;
     }
-    
-    
+
+    public Product(String kod, String artPost, String deskr, String magazin, Double price, Double price_u, String postach, String kateg, String status, String garant, String kateg2) {
+        this.kod = kod;
+        this.artPost = artPost;
+        this.deskr = deskr;
+        this.magazin = magazin;
+        this.price = price;
+        this.price_u = price_u;
+        this.postach = postach;
+        this.kateg = kateg;
+        this.status = status;
+        this.garant = garant;
+        this.kateg2 = kateg2;
+    }
 
     public Product(Integer id) {
         this.id = id;
@@ -142,10 +158,20 @@ public class Product  {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
-    
 
-   
-    
+    public String getGarant() {
+        return garant;
+    }
+
+    public void setGarant(String garant) {
+        this.garant = garant;
+    }
+
+    public String getKateg2() {
+        return kateg2;
+    }
+
+    public void setKateg2(String kateg2) {
+        this.kateg2 = kateg2;
+    }
 }

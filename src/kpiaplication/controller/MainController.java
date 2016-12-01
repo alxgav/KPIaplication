@@ -94,6 +94,8 @@ public class MainController implements Initializable {
     public Region region;
     public Button addUserButton;
     public Button deleteShopButton;
+    public TableColumn kategColumn2;
+    public TableColumn garantColumn;
     private Button clearButton = new Button();
     @FXML
     private Button testButton;
@@ -258,23 +260,6 @@ public class MainController implements Initializable {
         };  
 
 
-       kodColumn.setCellValueFactory(new PropertyValueFactory<>("kod"));
-       
-       artColumn.setCellValueFactory(new PropertyValueFactory<>("artPost"));
-       artColumn.setPrefWidth(150);
-       deskColumn.setCellValueFactory(new PropertyValueFactory<>("deskr"));
-       deskColumn.setPrefWidth(250);
-       magColumn.setCellValueFactory(new PropertyValueFactory<>("magazin"));
-       price1Col.setCellValueFactory(new PropertyValueFactory<>("price"));
-        ///
-        pmkTable_deskr_postachColumn.setCellFactory(TextFieldTableCell.forTableColumn(sc));
-        //
-       price2Col.setCellValueFactory(new PropertyValueFactory<>("price_u"));
-      // kategColumn.setCellValueFactory(new PropertyValueFactory<>("kpiaplication.data.db.kpiaplication.data.db.kpiaplication.data.db.kateg"));
-       postachColumn.setCellValueFactory(new PropertyValueFactory<>("postach"));
-      
-
-       
        kodOrderColumn.setCellValueFactory(new PropertyValueFactory<>("kod"));
        DeskrOrderColumn.setCellValueFactory(new PropertyValueFactory<>("deskr"));
        PriceOrderColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -286,6 +271,7 @@ public class MainController implements Initializable {
       
        
        orderTable.setPlaceholder(new Label("Немає замовлень :("));
+       mainTable.setPlaceholder(new Label(""));
        orderDate.setValue(LocalDate.now());
        
        price1Col.setOnEditCommit((CellEditEvent<Product, Double> event) -> {
@@ -926,13 +912,12 @@ public class MainController implements Initializable {
        });
    }
 
-    public void edit_pmk_action(ActionEvent actionEvent) throws IOException {
-        Webcam webcam = Webcam.getDefault();
+    public void edit_pmk_action(ActionEvent actionEvent) throws IOException, SQLException {
 
-        webcam.open();
-        BufferedImage image = webcam.getImage();
-        ImageIO.write(image, "PNG", new File("test.png"));
-        webcam.close();
+        KPIaplication kpi = new KPIaplication();
+        pmk_product_id pmk = new pmk_product_id();
+        kpi.showaddToPMK(pmkTable.getSelectionModel().getSelectedItems(),postachTable.getItems());
+        getPMK_product();
     }
 
     public void save_pmk(ActionEvent actionEvent) {

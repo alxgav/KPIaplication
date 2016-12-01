@@ -50,19 +50,59 @@
             <content>
                <TableView fx:id="mainTable" onKeyPressed="#mainTableKeyPressed" prefHeight="580.0" prefWidth="646.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                     <columns>
-                      <TableColumn fx:id="kodColumn" editable="false" prefWidth="75.0" text="КОД" />
-                      <TableColumn fx:id="artColumn" editable="false" prefWidth="75.0" text="Артикул" />
-                        <TableColumn fx:id="deskColumn" prefWidth="75.0" text="Наименование " />
-                        <TableColumn fx:id="magColumn" editable="false" prefWidth="75.0" text="Склад" />
+                      <TableColumn fx:id="kodColumn" editable="false" prefWidth="75.0" text="КОД">
+                          <cellValueFactory>
+                              <PropertyValueFactory property="kod" />
+                          </cellValueFactory>
+                      </TableColumn>
+                      <TableColumn fx:id="artColumn" editable="false" prefWidth="150.0" text="Артикул">
+                          <cellValueFactory>
+                              <PropertyValueFactory property="artPost" />
+                          </cellValueFactory>
+                      </TableColumn>
+                        <TableColumn fx:id="deskColumn" prefWidth="250.0" text="Наименование ">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="deskr" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="magColumn" editable="false" prefWidth="75.0" text="Склад">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="magazin" />
+                            </cellValueFactory>
+                        </TableColumn>
                         <TableColumn fx:id="priceColumn" prefWidth="175.0" text="ЦІНИ">
                            <columns>
-                              <TableColumn id="rrc_column" fx:id="price1Col" editable="true" prefWidth="83.0" styleClass="rrc_column_class" text="РРЦ" />
-                              <TableColumn fx:id="price2Col" prefWidth="67.0" text="Ціна" />
+                              <TableColumn id="rrc_column" fx:id="price1Col" editable="true" prefWidth="83.0" styleClass="rrc_column_class" text="РРЦ">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="price" />
+                                  </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="price2Col" prefWidth="67.0" text="Ціна">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="price_u" />
+                                  </cellValueFactory>
+                              </TableColumn>
                            </columns></TableColumn>
                         <TableColumn fx:id="kategColumn" prefWidth="60.0" text="Категорія">
-                          <cellValueFactory><PropertyValueFactory property="kpiaplication.data.db.kateg" /></cellValueFactory>
+                          <cellValueFactory>
+                              <PropertyValueFactory property="kateg" />
+                          </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="postachColumn" prefWidth="65.0" text="Постачальник" />
+                        <TableColumn fx:id="kategColumn2" prefWidth="60.0" text="Категорія2">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="kateg2" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="garantColumn" prefWidth="75.0" text="Гарантія">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="garant" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="postachColumn" prefWidth="65.0" text="Постачальник">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="postach" />
+                            </cellValueFactory>
+                        </TableColumn>
                         <TableColumn fx:id="statusColumn" prefWidth="75.0" text="статус">
                             <cellValueFactory>
                                 <PropertyValueFactory property="status" /> 
