@@ -231,7 +231,6 @@
                         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <items>
                               <Button fx:id="edit_pmk" mnemonicParsing="false" onAction="#edit_pmk_action" text="edit" />
-                              <Button fx:id="save_pmk" mnemonicParsing="false" onAction="#save_pmk" text="save" />
                               <Button fx:id="delete_pmk" mnemonicParsing="false" onAction="#delete_pmk_action" text="delete" />
                               <TextField fx:id="searchPmk" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="24.0" prefHeight="25.0" prefWidth="240.0" promptText="Пошук по ID" styleClass="searchPMKClass" />
                           </items>

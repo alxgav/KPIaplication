@@ -26,3 +26,12 @@ java.sql.SQLException: Connection has already been closed
 com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
 
 The last packet successfully received from the server was 62 332 milliseconds ago.  The last packet sent successfully to the server was 1 milliseconds ago.
+com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 63 838 milliseconds ago.  The last packet sent successfully to the server was 0 milliseconds ago.
+java.sql.SQLException: Connection has already been closed
+java.sql.SQLException: Connection has already been closed
+java.sql.SQLException: Connection has already been closed
+java.sql.SQLException: Connection has already been closed
+java.sql.SQLException: Connection has already been closed
+java.sql.SQLException: Connection has already been closed

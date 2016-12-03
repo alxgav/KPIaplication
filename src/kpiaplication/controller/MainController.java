@@ -920,8 +920,7 @@ public class MainController implements Initializable {
         getPMK_product();
     }
 
-    public void save_pmk(ActionEvent actionEvent) {
-    }
+
 
     public void delete_pmk_action(ActionEvent actionEvent) throws SQLException {
         Alert alert = new Alert(AlertType.WARNING);

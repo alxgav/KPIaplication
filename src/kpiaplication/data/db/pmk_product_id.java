@@ -29,6 +29,8 @@ public class pmk_product_id {
     private String pmk_deskr;
     @DatabaseField
     private Double pmk_price;
+//    @DatabaseField
+//    private String pmk_garant;
 //    @ForeignCollectionField
 //    private ForeignCollection<product_postach> product_postach;
 
