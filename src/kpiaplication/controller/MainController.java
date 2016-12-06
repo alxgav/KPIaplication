@@ -32,6 +32,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -96,6 +97,8 @@ public class MainController implements Initializable {
     public Button deleteShopButton;
     public TableColumn kategColumn2;
     public TableColumn garantColumn;
+    public TreeTableView  <pmk_category> kategTree;
+    public TreeTableColumn<pmk_category,String> categoryColumn;
     private Button clearButton = new Button();
     @FXML
     private Button testButton;
@@ -129,6 +132,7 @@ public class MainController implements Initializable {
     private final ObservableList user = FXCollections.observableArrayList();
     private final ObservableList user_list = FXCollections.observableArrayList();
     private final ObservableList pmk_list = FXCollections.observableArrayList();
+    private final ObservableList<pmk_category> pmk_category = FXCollections.observableArrayList();
 
    // private final ObservableList<String> postach = FXCollections.observableArrayList(c.postach);
     @FXML
@@ -268,7 +272,7 @@ public class MainController implements Initializable {
        SumaOrderColumn.setCellValueFactory(new PropertyValueFactory<>("summa"));
        ShopOrderColumn.setCellValueFactory(new PropertyValueFactory<>("shop"));
        dateOrderColumn.setCellValueFactory(new PropertyValueFactory<Order,CustomDate>("order_date"));
-      
+        categoryColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("category"));
        
        orderTable.setPlaceholder(new Label("Немає замовлень :("));
        mainTable.setPlaceholder(new Label(""));
@@ -280,7 +284,8 @@ public class MainController implements Initializable {
        
        
         try {
-        loginDialog();
+            loginDialog();
+
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -291,6 +296,7 @@ public class MainController implements Initializable {
             Postach();
             getOrder();
             getPMK_product();
+
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             new lib.messages.error.errorMessage().error(ex.toString());
@@ -301,6 +307,7 @@ public class MainController implements Initializable {
        mainTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         try {
             showUsers();
+
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             new lib.messages.error.errorMessage().error(ex.toString());
@@ -331,6 +338,11 @@ public class MainController implements Initializable {
 
         changePostach_product();
 
+        try {
+            setCategoryTree();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
    
@@ -407,10 +419,30 @@ public class MainController implements Initializable {
             pmk_list.add(r);
 
         });
+
         pmkTable.setItems(pmk_list);
     }
 
+    private void setCategoryTree() throws SQLException {
+        pmk_category.clear();
+        QueryBuilder<pmk_category,String> qb = c.pmk_category.queryBuilder();
+        qb.where().eq("parent_id",1);
+        PreparedQuery<pmk_category> pq = qb.prepare();
+        List<pmk_category> category = c.pmk_category.query(pq);
+        category.stream().forEach((r)->{
+            pmk_category.add(r);
+        });
 
+        TreeItem<pmk_category> root = new TreeItem(pmk_category.get(0));
+        for(int i=1;i<=pmk_category.size()-1;i++){
+           // TreeItem<pmk_category> c = new TreeItem(pmk_category.get(i));
+            root.getChildren().addAll(Arrays.asList(new TreeItem<pmk_category>(pmk_category.get(i))));
+        }
+
+
+        kategTree.setRoot(root);
+
+    }
 
     @FXML
     private void SettingButtonAction(ActionEvent event) throws SQLException, IOException {
@@ -995,4 +1027,6 @@ public class MainController implements Initializable {
             shop.remove(shopBox.getSelectionModel().getSelectedItem());
         }
     }
+
+
 }

@@ -14,6 +14,8 @@ public class pmk_category {
     private Integer parent_id;
     @DatabaseField
     private  String category;
+    @DatabaseField
+    private Double percent;
 
     public  pmk_category(){
 
@@ -22,6 +24,12 @@ public class pmk_category {
     public pmk_category(Integer parent_id, String category) {
         this.parent_id = parent_id;
         this.category = category;
+    }
+
+    public pmk_category(Integer parent_id, String category, Double percent) {
+        this.parent_id = parent_id;
+        this.category = category;
+        this.percent = percent;
     }
 
     public Integer getId() {
@@ -46,5 +54,13 @@ public class pmk_category {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Double percent) {
+        this.percent = percent;
     }
 }
