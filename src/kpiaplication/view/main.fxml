@@ -246,14 +246,14 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TreeTableView fx:id="kategTree" layoutX="14.0" layoutY="14.0" prefHeight="360.0" prefWidth="447.0">
+                        <TreeTableView fx:id="kategTree" editable="true" layoutX="14.0" layoutY="14.0" prefHeight="360.0" prefWidth="447.0">
                           <columns>
                             <TreeTableColumn fx:id="categoryColumn" prefWidth="199.0" text="Категорії">
                                <!--<cellValueFactory>
                                     <PropertyValueFactory property="category" />
                                 </cellValueFactory>-->
                             </TreeTableColumn>
-                            <TreeTableColumn minWidth="9.0" prefWidth="112.0" text="test">
+                            <TreeTableColumn fx:id="categoryTest" minWidth="9.0" prefWidth="112.0" text="Відсоток">
                              <!--   <cellValueFactory>
                                     <PropertyValueFactory property="category" />
                                 </cellValueFactory>-->

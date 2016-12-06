@@ -99,6 +99,7 @@ public class MainController implements Initializable {
     public TableColumn garantColumn;
     public TreeTableView  <pmk_category> kategTree;
     public TreeTableColumn<pmk_category,String> categoryColumn;
+    public TreeTableColumn categoryTest;
     private Button clearButton = new Button();
     @FXML
     private Button testButton;
@@ -272,7 +273,9 @@ public class MainController implements Initializable {
        SumaOrderColumn.setCellValueFactory(new PropertyValueFactory<>("summa"));
        ShopOrderColumn.setCellValueFactory(new PropertyValueFactory<>("shop"));
        dateOrderColumn.setCellValueFactory(new PropertyValueFactory<Order,CustomDate>("order_date"));
-        categoryColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("category"));
+       categoryColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("category"));
+       categoryTest.setCellValueFactory(new TreeItemPropertyValueFactory<>("percent"));
+
        
        orderTable.setPlaceholder(new Label("Немає замовлень :("));
        mainTable.setPlaceholder(new Label(""));
@@ -426,17 +429,28 @@ public class MainController implements Initializable {
     private void setCategoryTree() throws SQLException {
         pmk_category.clear();
         QueryBuilder<pmk_category,String> qb = c.pmk_category.queryBuilder();
-        qb.where().eq("parent_id",1);
+      //  qb.where().eq("parent_id",1);
         PreparedQuery<pmk_category> pq = qb.prepare();
         List<pmk_category> category = c.pmk_category.query(pq);
-        category.stream().forEach((r)->{
+        category.forEach((r)->{
             pmk_category.add(r);
         });
 
-        TreeItem<pmk_category> root = new TreeItem(pmk_category.get(0));
-        for(int i=1;i<=pmk_category.size()-1;i++){
-           // TreeItem<pmk_category> c = new TreeItem(pmk_category.get(i));
-            root.getChildren().addAll(Arrays.asList(new TreeItem<pmk_category>(pmk_category.get(i))));
+        //TreeItem<pmk_category> root = new TreeItem(pmk_category.get(0));
+        TreeItem<pmk_category> root = new TreeItem<>();
+        root.setExpanded(true);
+       // TreeItem<pmk_category> c = new TreeItem<>();
+        for(int i=0;i<=pmk_category.size()-1;i++){
+            TreeItem<pmk_category> c = new TreeItem<>(pmk_category.get(i));
+            if(pmk_category.get(i).getParent_id()==0){
+               // root.getChildren().addAll(Arrays.asList(new TreeItem<pmk_category>(pmk_category.get(i))));
+                root.getChildren().addAll(c);
+            } else{
+                TreeItem<pmk_category> sec = new TreeItem<>(pmk_category.get(i));
+                c.getChildren().add(sec);
+            }
+
+
         }
 
 
