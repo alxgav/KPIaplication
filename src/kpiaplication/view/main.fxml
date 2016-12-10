@@ -32,7 +32,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpiaplication.controller.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpiaplication.controller.MainController">
    <stylesheets>
         <URL value="@/kpiaplication/style/style.css" />
     </stylesheets>
@@ -246,7 +246,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TreeTableView fx:id="kategTree" editable="true" layoutX="14.0" layoutY="14.0" prefHeight="360.0" prefWidth="447.0">
+                        <TreeTableView fx:id="kategTree" editable="true" layoutX="32.0" layoutY="70.0" prefHeight="360.0" prefWidth="447.0">
                           <columns>
                             <TreeTableColumn fx:id="categoryColumn" prefWidth="199.0" text="Категорії">
                                <!--<cellValueFactory>
@@ -260,6 +260,8 @@
                             </TreeTableColumn>
                           </columns>
                         </TreeTableView>
+                        <Button fx:id="addCategoryButton" layoutX="32.0" layoutY="28.0" mnemonicParsing="false" onAction="#addCategoryButtonaction" text="add" />
+                        <Button fx:id="delCategoryButton" layoutX="93.0" layoutY="28.0" mnemonicParsing="false" onAction="#delCategoryButton" text="del" />
                      </children>
                   </AnchorPane>
               </content>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane id="AnchorPane" prefHeight="400.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpiaplication.controller.CategoryController">
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+          <Button fx:id="addButtonCategory" mnemonicParsing="false" onAction="#addButtonCategoryAction" text="Додати" />
+            <Button fx:id="delButtonCategory" mnemonicParsing="false" onAction="#delButtonCategoryAction" text="Видалити" />
+        </items>
+      </ToolBar>
+   </top>
+   <center>
+      <TreeTableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TreeTableColumn prefWidth="350.0" text="Категорії" />
+          <TreeTableColumn prefWidth="75.0" text="Відсоток" />
+        </columns>
+      </TreeTableView>
+   </center>
+</BorderPane>
