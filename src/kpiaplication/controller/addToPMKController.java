@@ -10,12 +10,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import kpiaplication.KPIaplication;
 import kpiaplication.common.common;
 import kpiaplication.common.messages.message;
 import kpiaplication.data.db.Product;
+import kpiaplication.data.db.pmk_category;
 import kpiaplication.data.db.pmk_product_id;
 import kpiaplication.data.db.product_postach;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,11 +31,11 @@ import java.util.ResourceBundle;
  */
 public class addToPMKController implements Initializable {
     @FXML
-    public TextField pmk_id;
+    public TextField pmk_id ;
     @FXML
     public TextArea pmk_deskr;
     @FXML
-    public ComboBox pmk_kateg;
+    public ComboBox pmk_kateg = new ComboBox();
     @FXML
     public TableView postachTable;
     @FXML
@@ -50,13 +53,16 @@ public class addToPMKController implements Initializable {
     @FXML
     public Button canselButton;
     public TableColumn postachTableCol5;
+    public Button categoryButton;
 
     private pmk_product_id pmk;
     private Product product;
     private product_postach ppostach;
+    private pmk_category category;
     common com;
     private ObservableList pmk_kat = FXCollections.observableArrayList();
     private Stage dialogStage;
+    private String kateg;
     private final ObservableList<product_postach> postach = FXCollections.observableArrayList();
     int status = 1;
         @Override
@@ -194,6 +200,20 @@ public class addToPMKController implements Initializable {
 
     public void canselButtonaction(ActionEvent actionEvent) {
         dialogStage.close();
+    }
+
+
+    public void categoryButtonAction(ActionEvent actionEvent) throws IOException, SQLException {
+        KPIaplication kpi = new KPIaplication();
+        kpi.showCategory(category);
+    }
+
+    public void setCategory(String kateg) {
+        this.kateg = kateg;
+        System.out.println(kateg);
+        pmk_kateg.setValue(kateg);
+
+
     }
 
 

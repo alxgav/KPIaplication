@@ -1016,8 +1016,6 @@ public class MainController implements Initializable {
                 pp = new product_postach(si.get(i).getPostach(),si.get(i).getPrice(),si.get(i).getKod(),si.get(i).getArtPost());
                 plist.add(pp);
             }
-
-
             kpi.showaddToPMK(product,plist);
 
         }

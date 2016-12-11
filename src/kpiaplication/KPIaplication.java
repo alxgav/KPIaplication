@@ -10,16 +10,20 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import kpiaplication.controller.CategoryController;
 import kpiaplication.controller.addToPMKController;
 import kpiaplication.data.db.Product;
+import kpiaplication.data.db.pmk_category;
 import kpiaplication.data.db.pmk_product_id;
 import kpiaplication.data.db.product_postach;
 
 import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  *
@@ -95,6 +99,23 @@ public class KPIaplication extends Application {
             e.printStackTrace();
         }
     }
+
+    public void showCategory(pmk_category category) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(KPIaplication.class.getResource("/kpiaplication/view/category.fxml"));
+        BorderPane page = loader.load();
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Додати Категорію");
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.setResizable(false);
+        dialogStage.setIconified(false);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        CategoryController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.setCategory(category);
+        dialogStage.showAndWait();
+        }
 
 
 

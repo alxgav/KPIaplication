@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -21,7 +22,7 @@
         <URL value="@/kpiaplication/style/style_addtopmk.css" />
     </stylesheets>
     <children>
-      <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="500.0">
+      <SplitPane dividerPositions="0.5107604017216643" prefHeight="200.0" prefWidth="500.0">
          <items>
             <GridPane hgap="2.0" vgap="2.0">
               <columnConstraints>
@@ -39,7 +40,10 @@
                   <TextArea fx:id="pmk_deskr" prefHeight="200.0" prefWidth="200.0" promptText="НАЙМЕНУВАННЯ" GridPane.rowIndex="1" />
                   <ComboBox fx:id="pmk_kateg" editable="true" prefHeight="25.0" prefWidth="343.0" promptText="КАТЕГОРІЯ" GridPane.rowIndex="2" />
                   <TextField fx:id="pmk_price" promptText="ЦІНА" GridPane.rowIndex="3" />
-                  <Button fx:id="categoryButton" mnemonicParsing="false" styleClass="categoryButton" text="..." textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button fx:id="categoryButton" maxHeight="24.0" maxWidth="24.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#categoryButtonAction" prefHeight="24.0" prefWidth="24.0" styleClass="categoryButton" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <tooltip>
+                        <Tooltip text="Відкрити категорії" />
+                     </tooltip></Button>
                </children>
             </GridPane>
             <GridPane>
@@ -50,7 +54,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TableView fx:id="postachTable" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="postachTable" prefHeight="198.0" prefWidth="323.0">
                     <columns>
                       <TableColumn fx:id="postachTableCol1" prefWidth="105.0" text="КОД  постачальника">
                           <cellValueFactory>

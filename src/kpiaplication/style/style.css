@@ -49,6 +49,12 @@ and open the template in the editor.
 .addOrderButtonClass {
 
 }
+.addButton{
+ -fx-graphic: url("img/add.png");
+}
+.delButton{
+ -fx-graphic: url("img/del.png");
+}
 
 
 

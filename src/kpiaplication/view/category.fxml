@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane id="AnchorPane" prefHeight="400.0" prefWidth="562.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpiaplication.controller.CategoryController">
+    <stylesheets>
+        <URL value="@/kpiaplication/style/style.css" />
+    </stylesheets>
    <top>
       <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
-          <Button fx:id="addButtonCategory" mnemonicParsing="false" onAction="#addButtonCategoryAction" text="Додати" />
-            <Button fx:id="delButtonCategory" mnemonicParsing="false" onAction="#delButtonCategoryAction" text="Видалити" />
+          <Button fx:id="addButtonCategory" mnemonicParsing="false" onAction="#addButtonCategoryAction" styleClass="addButton">
+               <tooltip>
+                  <Tooltip text="Додати категорію" />
+               </tooltip></Button>
+            <Button fx:id="delButtonCategory" mnemonicParsing="false" onAction="#delButtonCategoryAction" styleClass="delButton">
+               <tooltip>
+                  <Tooltip text="Видалити кутегорію" />
+               </tooltip></Button>
         </items>
       </ToolBar>
    </top>
    <center>
-      <TreeTableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TreeTableView fx:id="kategTree" onMouseClicked="#kategTreeMouseClick" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-          <TreeTableColumn prefWidth="350.0" text="Категорії" />
-          <TreeTableColumn prefWidth="75.0" text="Відсоток" />
+          <TreeTableColumn fx:id="categoryColumn" prefWidth="350.0" text="Категорії" />
+          <TreeTableColumn fx:id="percentColumn" prefWidth="75.0" text="Відсоток" />
         </columns>
       </TreeTableView>
    </center>
