@@ -3,6 +3,7 @@ package kpiaplication.controller;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,7 +32,7 @@ import java.util.ResourceBundle;
  */
 public class addToPMKController implements Initializable {
     @FXML
-    public TextField pmk_id ;
+    private TextField pmk_id = new TextField() ;
     @FXML
     public TextArea pmk_deskr;
     @FXML
@@ -64,6 +65,7 @@ public class addToPMKController implements Initializable {
     private Stage dialogStage;
     private String kateg;
     private final ObservableList<product_postach> postach = FXCollections.observableArrayList();
+
     int status = 1;
         @Override
         public void initialize(URL url, ResourceBundle rb) {
@@ -110,7 +112,6 @@ public class addToPMKController implements Initializable {
 //            postach.clear();
 //            postach.addAll(pp);
             postachTable.setItems(postach);
-
 
     }
 
@@ -202,19 +203,21 @@ public class addToPMKController implements Initializable {
         dialogStage.close();
     }
 
+    public void setCategory(pmk_category category){
+        this.category = category;
+        pmk_kateg.setValue(category.getCategory());
+
+    }
 
     public void categoryButtonAction(ActionEvent actionEvent) throws IOException, SQLException {
         KPIaplication kpi = new KPIaplication();
         kpi.showCategory(category);
-    }
-
-    public void setCategory(String kateg) {
-        this.kateg = kateg;
-        System.out.println(kateg);
-        pmk_kateg.setValue(kateg);
-
+        com = new common();
+        pmk_kateg.setValue(com.ini.ReadString("category"));
 
     }
+
+
 
 
 

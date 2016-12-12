@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import kpiaplication.data.db.*;
 import kpiaplication.data.dbo.dbConnection;
+import lib.file.ini.PropIni;
 
 /**
  * Created by Алексей on 29.05.2016.
@@ -14,6 +15,7 @@ import kpiaplication.data.dbo.dbConnection;
 public class common {
    public final String [] postach ={"ЮГ-КОНТРАКТ","РАДИОЛАЙН","ЦИФРОТЕХ","КТС","MYTAB","НЕОСЕРВІС","ALL"};
    public final String [] groups ={"Материнськи плати",};
+   public PropIni ini = new PropIni("s");
    private ConnectionSource con = new dbConnection().getConnection();
    public Dao<Product, String> produkt;
    public Dao<Order,String> order;
