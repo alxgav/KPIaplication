@@ -72,6 +72,11 @@
                                      <PropertyValueFactory property="price_postach_rrc" />
                             </cellValueFactory>
                       </TableColumn>
+                        <TableColumn fx:id="postachTableCol31" prefWidth="71.0" text="РРЦ2">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="price_postach_rrc2" />
+                            </cellValueFactory>
+                        </TableColumn>
                         <TableColumn fx:id="postachTableCol4" prefWidth="90.0" text="ПОСТАЧАЛЬНИК">
                             <cellValueFactory>
                                 <PropertyValueFactory property="postach" />

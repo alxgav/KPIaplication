@@ -6,10 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import kpiaplication.common.common;
 import kpiaplication.common.messages.message;
 import kpiaplication.data.db.pmk_category;
@@ -19,7 +22,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import lib.file.ini.PropIni;
 
 /**
  * Created by alxga on 10.12.2016.
@@ -31,9 +33,12 @@ public class CategoryController implements Initializable {
     public TreeTableColumn categoryColumn;
     public TreeTableColumn percentColumn;
     public TreeTableView<pmk_category> kategTree;
+    public TreeTableColumn idColumn;
+    public TreeTableColumn parent_idColumn;
 
 
     pmk_category category;
+    private int id;
 
     private Stage dialogStage;
     private final ObservableList<pmk_category> pmk_category = FXCollections.observableArrayList();
@@ -41,21 +46,80 @@ public class CategoryController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         categoryColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("category"));
         percentColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("percent"));
+        idColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("id"));
+        parent_idColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("parent_id"));
 
 
     }
 
-    public void addButtonCategoryAction(ActionEvent actionEvent) {
-        TreeItem<pmk_category> item = new TreeItem<>(new pmk_category(2,"new category"));
+    public void addButtonCategoryAction(ActionEvent actionEvent) throws SQLException {
+
+        TreeTableView.TreeTableViewSelectionModel<pmk_category> sm = kategTree.getSelectionModel();
+        if(!sm.isEmpty()) {
+            TreeItem<pmk_category> item = new TreeItem<>(getNewCategory("parent_id"));
+            int rowIndex = sm.getSelectedIndex();
+
+            TreeItem<pmk_category> selectedItem = sm.getModelItem(rowIndex);
+
+            id = selectedItem.getValue().getId();
+//            System.out.println(id);
+//            new common().ini.WriteString("id",""+id);
+            selectedItem.getChildren().add(item);
+          //  setId(selectedItem);
+        } else{
+            TreeItem<pmk_category> newItem = new TreeItem<>(getNewCategory("id"));
+            kategTree.getRoot().getChildren().add(newItem);
+        }
+        setCategoryTree(category);
+
+    }
+
+    private int getId(){
+        return id;
+    }
+    private void setId(TreeItem<pmk_category> selectedItem){
+        id = selectedItem.getValue().getId();
+
+    }
+
+    private pmk_category getNewCategory(String kateg) throws SQLException {
+        common com = new common();
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Додати/редагувати категорію");
+        dialog.setHeaderText("");
+        ButtonType loginButtonType = new ButtonType("Додати", ButtonBar.ButtonData.OK_DONE);
+        ButtonType canselButtonType = new ButtonType("Відмінити", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, canselButtonType);
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+        TextField new_category = new TextField();
+        new_category.setPromptText("Категорія");
+        TextField new_percent = new TextField();
+        new_percent.setPromptText("Відсоток");
+        grid.add(new_category, 0, 0);
+        grid.add(new_percent, 0, 1);
+      //  new common().ini.ReadInt("id")
+        dialog.getDialogPane().setContent(grid);
+        Optional<Pair<String, String>> result = dialog.showAndWait();
         TreeTableView.TreeTableViewSelectionModel<pmk_category> sm = kategTree.getSelectionModel();
 
-        if(!sm.isEmpty()) {
+        if (new_category.getText().isEmpty() || new_percent.getText().isEmpty()) {
+            return null;
+        }
+        if (kateg.equals("id")) {
+            com.pmk_category.create(new pmk_category(0, new_category.getText(), Double.valueOf(new_percent.getText())));
+            return new pmk_category(0, new_category.getText(), Double.valueOf(new_percent.getText()));
+        }
+        if (kateg.equals("parent_id")) {
             int rowIndex = sm.getSelectedIndex();
             TreeItem<pmk_category> selectedItem = sm.getModelItem(rowIndex);
-            selectedItem.getChildren().add(item);
-        } else{
-
+            new message().messgaeDLG("","",""+selectedItem.getValue().getId());
+            com.pmk_category.create(new pmk_category(selectedItem.getValue().getId(), new_category.getText(), Double.valueOf(new_percent.getText())));
+            return new pmk_category(selectedItem.getValue().getId(), new_category.getText(), Double.valueOf(new_percent.getText()));
         }
+        return null;
     }
 
     public void delButtonCategoryAction(ActionEvent actionEvent) {
@@ -118,6 +182,7 @@ public class CategoryController implements Initializable {
         pmk_category.forEach((r)->{
 
             TreeItem<pmk_category> categoryRoot = new TreeItem<>(r);
+
             int id = r.getId();
 
             if(r.getParent_id()==0) {
@@ -126,6 +191,7 @@ public class CategoryController implements Initializable {
                     TreeItem<pmk_category> parentCategory = new TreeItem<>(n);
                     if(n.getParent_id()==id){
                         categoryRoot.getChildren().add(parentCategory);
+
                     }
                 });
             }else{

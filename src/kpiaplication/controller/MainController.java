@@ -1013,7 +1013,11 @@ public class MainController implements Initializable {
             selectedCells.addAll(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size()-1));// .add(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size()-1));
             List<product_postach> plist = new ArrayList<>();
             for(int i=0;i<=si.size()-1;i++){
-                pp = new product_postach(si.get(i).getPostach(),si.get(i).getPrice(),si.get(i).getKod(),si.get(i).getArtPost());
+                pp = new product_postach(si.get(i).getPostach(),
+                        si.get(i).getPrice(),
+                        si.get(i).getPrice_u(),
+                        si.get(i).getKod(),
+                        si.get(i).getArtPost());
                 plist.add(pp);
             }
             kpi.showaddToPMK(product,plist);

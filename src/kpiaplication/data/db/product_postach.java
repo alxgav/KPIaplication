@@ -26,23 +26,27 @@ public class product_postach {
     @DatabaseField
     private Double price_postach_rrc;
     @DatabaseField
+    private Double price_postach_rrc2; // second pole
+    @DatabaseField
     private String kod_postach;
     @DatabaseField
     private String art_postach;
     public product_postach() {
     }
 
-    public product_postach(String pmk_id, String postach, Double price_postach_rrc, String kod_postach, String art_postach) {
+    public product_postach(String pmk_id, String postach, Double price_postach_rrc, Double price_postach_rrc2, String kod_postach, String art_postach) {
         this.pmk_id = pmk_id;
         this.postach = postach;
         this.price_postach_rrc = price_postach_rrc;
+        this.price_postach_rrc2 = price_postach_rrc2;
         this.kod_postach = kod_postach;
         this.art_postach = art_postach;
     }
 
-    public product_postach(String postach, Double price_postach_rrc, String kod_postach, String art_postach) {
+    public product_postach(String postach, Double price_postach_rrc, Double price_postach_rrc2, String kod_postach, String art_postach) {
         this.postach = postach;
         this.price_postach_rrc = price_postach_rrc;
+        this.price_postach_rrc2 = price_postach_rrc2;
         this.kod_postach = kod_postach;
         this.art_postach = art_postach;
     }
@@ -56,7 +60,13 @@ public class product_postach {
         this.id = id;
     }
 
+    public Double getPrice_postach_rrc2() {
+        return price_postach_rrc2;
+    }
 
+    public void setPrice_postach_rrc2(Double price_postach_rrc2) {
+        this.price_postach_rrc2 = price_postach_rrc2;
+    }
 
     public String getPostach() {
         return postach;

@@ -18,8 +18,10 @@ import kpiaplication.data.db.Product;
 import kpiaplication.data.db.pmk_category;
 import kpiaplication.data.db.pmk_product_id;
 import kpiaplication.data.db.product_postach;
+import org.apache.commons.math3.util.Precision;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import java.util.ResourceBundle;
  * Created by alxga on 21.11.2016.
  */
 public class addToPMKController implements Initializable {
+    public TableColumn postachTableCol31;
     @FXML
     private TextField pmk_id = new TextField() ;
     @FXML
@@ -76,10 +79,11 @@ public class addToPMKController implements Initializable {
         this.dialogStage = dialogStage;
     }
 
+    //add new
     public void setPMKID(Product product, List<product_postach> ppostach) {
         this.product = product;
         status=1;
-     //  Double p =(product.getPrice()!=0)?product.getPrice():product.getPrice_u();
+        Double p =(product.getPrice()!=0)?product.getPrice():product.getPrice_u();
         pmk_deskr.setText(product.getDeskr());
 
         pmk_id.setText(getLastID());
@@ -98,6 +102,7 @@ public class addToPMKController implements Initializable {
         postach.addAll(ppostach);
         postachTable.setItems(postach);
         pmk_kateg.setItems(pmk_kat);
+
         pmk_price.setText(""+getMinPrice());
 
 
@@ -154,7 +159,7 @@ public class addToPMKController implements Initializable {
             ArrayList<Double> data = new ArrayList();
             data.clear();
             for(int i=0;i<=postach.size()-1;i++){
-               data.add(postach.get(i).getPrice_postach_rrc());
+               data.add((postach.get(i).getPrice_postach_rrc()!=0)?postach.get(i).getPrice_postach_rrc():postach.get(i).getPrice_postach_rrc2());
             }
             min = Collections.min(data);
             return min;
@@ -178,6 +183,7 @@ public class addToPMKController implements Initializable {
                     com.product_postach.create(new product_postach(pmk_id.getText(),
                             a.get(i).getPostach(),
                             a.get(i).getPrice_postach_rrc(),
+                            a.get(i).getPrice_postach_rrc2(),
                             a.get(i).getKod_postach(),
                             a.get(i).getArt_postach()));
                 }
@@ -214,10 +220,14 @@ public class addToPMKController implements Initializable {
         kpi.showCategory(category);
         com = new common();
         pmk_kateg.setValue(com.ini.ReadString("category"));
+        double percent = Double.valueOf(com.ini.ReadString("percent"))/100;
+        pmk_price.setText(""+ setValue (getMinPrice()*percent+getMinPrice(),0));
 
     }
 
-
+    private Double setValue(Double value,int scale){
+        return Precision.round(value, scale, BigDecimal.ROUND_HALF_UP);
+    }
 
 
 
