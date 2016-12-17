@@ -55,6 +55,9 @@ and open the template in the editor.
 .delButton{
  -fx-graphic: url("img/del.png");
 }
+.editButton{
+ -fx-graphic: url("img/edit.png");
+}
 
 
 

@@ -19,6 +19,10 @@
                <tooltip>
                   <Tooltip text="Додати категорію" />
                </tooltip></Button>
+            <Button fx:id="editButtonCategory" mnemonicParsing="false" onAction="#editButtonCategoryAction" styleClass="editButton">
+                <tooltip>
+                    <Tooltip text="Редагувати категорію" />
+                </tooltip></Button>
             <Button fx:id="delButtonCategory" mnemonicParsing="false" onAction="#delButtonCategoryAction" styleClass="delButton">
                <tooltip>
                   <Tooltip text="Видалити кутегорію" />

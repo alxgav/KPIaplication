@@ -35,6 +35,7 @@ public class CategoryController implements Initializable {
     public TreeTableView<pmk_category> kategTree;
     public TreeTableColumn idColumn;
     public TreeTableColumn parent_idColumn;
+    public Button editButtonCategory;
 
 
     pmk_category category;
@@ -217,4 +218,6 @@ public class CategoryController implements Initializable {
         }
     }
 
+    public void editButtonCategoryAction(ActionEvent actionEvent) {
+    }
 }
