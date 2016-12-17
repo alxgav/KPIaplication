@@ -34,6 +34,7 @@ import java.util.ResourceBundle;
  */
 public class addToPMKController implements Initializable {
     public TableColumn postachTableCol31;
+    public TextField pmk_garantText;
     @FXML
     private TextField pmk_id = new TextField() ;
     @FXML
@@ -102,7 +103,7 @@ public class addToPMKController implements Initializable {
         postach.addAll(ppostach);
         postachTable.setItems(postach);
         pmk_kateg.setItems(pmk_kat);
-
+        pmk_garantText.setText(product.getGarant());
         pmk_price.setText(""+getMinPrice());
 
 
@@ -116,6 +117,7 @@ public class addToPMKController implements Initializable {
             pmk_price.setText(""+pmk.get(0).getPmk_price());
 //            postach.clear();
 //            postach.addAll(pp);
+            pmk_garantText.setText(pmk.get(0).getPmk_garant());
             postachTable.setItems(postach);
 
     }
@@ -174,7 +176,7 @@ public class addToPMKController implements Initializable {
             pmk = new pmk_product_id(pmk_id.getText(),
                     ""+pmk_kateg.getSelectionModel().getSelectedItem(),
                     pmk_deskr.getText(),
-                    Double.valueOf(pmk_price.getText()));
+                    Double.valueOf(pmk_price.getText()),pmk_garantText.getText());
             ppostach = new product_postach();
             if(!isFound(pmk_id.getText())){
                 com.pmk_product_id.create(pmk);

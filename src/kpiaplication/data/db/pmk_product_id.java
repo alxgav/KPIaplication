@@ -29,8 +29,8 @@ public class pmk_product_id {
     private String pmk_deskr;
     @DatabaseField
     private Double pmk_price;
-//    @DatabaseField
-//    private String pmk_garant;
+    @DatabaseField
+    private String pmk_garant;
 //    @ForeignCollectionField
 //    private ForeignCollection<product_postach> product_postach;
 
@@ -41,11 +41,12 @@ public class pmk_product_id {
 
 
 
-    public pmk_product_id(String pmk_id, String pmk_kateg, String pmk_deskr, Double pmk_price) {
+    public pmk_product_id(String pmk_id, String pmk_kateg, String pmk_deskr, Double pmk_price, String pmk_garant) {
         this.pmk_id = pmk_id;
         this.pmk_kateg = pmk_kateg;
         this.pmk_deskr = pmk_deskr;
         this.pmk_price = pmk_price;
+        this.pmk_garant = pmk_garant;
     }
 
     //    public pmk_product_id(String pmk_id, String pmk_kateg, Double price_pmk, ForeignCollection<kpiaplication.data.db.product_postach> product_postach) {
@@ -54,6 +55,8 @@ public class pmk_product_id {
 //        this.price_pmk = price_pmk;
 //        this.product_postach = product_postach;
 //    }
+
+
 
     public Integer getId() {
         return id;
@@ -96,7 +99,15 @@ public class pmk_product_id {
         this.pmk_deskr = pmk_deskr;
     }
 
-//    public ForeignCollection<kpiaplication.data.db.product_postach> getProduct_postach() {
+    public String getPmk_garant() {
+        return pmk_garant;
+    }
+
+    public void setPmk_garant(String pmk_garant) {
+        this.pmk_garant = pmk_garant;
+    }
+
+    //    public ForeignCollection<kpiaplication.data.db.product_postach> getProduct_postach() {
 //        return product_postach;
 //    }
 //

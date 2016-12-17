@@ -102,6 +102,7 @@ public class MainController implements Initializable {
     public TreeTableColumn categoryTest;
     public Button addCategoryButton;
     public Button delCategoryButton;
+    public TableColumn postachTableCol22;
     private Button clearButton = new Button();
     @FXML
     private Button testButton;

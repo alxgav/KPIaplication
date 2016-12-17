@@ -29,8 +29,8 @@
    <center>
       <TreeTableView fx:id="kategTree" onMouseClicked="#kategTreeMouseClick" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
-            <TreeTableColumn fx:id="idColumn" prefWidth="75.0" text="id" />
-            <TreeTableColumn fx:id="parent_idColumn" prefWidth="75.0" text="parent_id" />
+            <TreeTableColumn fx:id="idColumn" prefWidth="75.0" text="id" visible="false" />
+            <TreeTableColumn fx:id="parent_idColumn" prefWidth="75.0" text="parent_id" visible="false" />
           <TreeTableColumn fx:id="categoryColumn" prefWidth="350.0" text="Категорії" />
           <TreeTableColumn fx:id="percentColumn" prefWidth="75.0" text="Відсоток" />
         </columns>
