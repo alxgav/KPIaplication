@@ -1,7 +1,9 @@
 package kpiaplication.controller;
 
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import javafx.util.StringConverter;
 import kpiaplication.common.common;
 import kpiaplication.common.messages.message;
 import kpiaplication.data.db.pmk_category;
@@ -22,6 +25,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.scene.control.cell.TextFieldTreeTableCell;
+
 
 /**
  * Created by alxga on 10.12.2016.
@@ -45,6 +50,7 @@ public class CategoryController implements Initializable {
     private final ObservableList<pmk_category> pmk_category = FXCollections.observableArrayList();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         categoryColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("category"));
         percentColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("percent"));
         idColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("id"));
@@ -63,10 +69,7 @@ public class CategoryController implements Initializable {
             TreeItem<pmk_category> selectedItem = sm.getModelItem(rowIndex);
 
             id = selectedItem.getValue().getId();
-//            System.out.println(id);
-//            new common().ini.WriteString("id",""+id);
             selectedItem.getChildren().add(item);
-          //  setId(selectedItem);
         } else{
             TreeItem<pmk_category> newItem = new TreeItem<>(getNewCategory("id"));
             kategTree.getRoot().getChildren().add(newItem);
@@ -101,11 +104,9 @@ public class CategoryController implements Initializable {
         new_percent.setPromptText("Відсоток");
         grid.add(new_category, 0, 0);
         grid.add(new_percent, 0, 1);
-      //  new common().ini.ReadInt("id")
         dialog.getDialogPane().setContent(grid);
         Optional<Pair<String, String>> result = dialog.showAndWait();
         TreeTableView.TreeTableViewSelectionModel<pmk_category> sm = kategTree.getSelectionModel();
-
         if (new_category.getText().isEmpty() || new_percent.getText().isEmpty()) {
             return null;
         }
@@ -116,15 +117,17 @@ public class CategoryController implements Initializable {
         if (kateg.equals("parent_id")) {
             int rowIndex = sm.getSelectedIndex();
             TreeItem<pmk_category> selectedItem = sm.getModelItem(rowIndex);
-            new message().messgaeDLG("","",""+selectedItem.getValue().getId());
+          //  new message().messgaeDLG("","",""+selectedItem.getValue().getId());
             com.pmk_category.create(new pmk_category(selectedItem.getValue().getId(), new_category.getText(), Double.valueOf(new_percent.getText())));
             return new pmk_category(selectedItem.getValue().getId(), new_category.getText(), Double.valueOf(new_percent.getText()));
         }
         return null;
     }
 
-    public void delButtonCategoryAction(ActionEvent actionEvent) {
 
+
+    public void delButtonCategoryAction(ActionEvent actionEvent) throws SQLException {
+        common com = new common();
         TreeTableView.TreeTableViewSelectionModel<pmk_category> sm = kategTree.getSelectionModel();
         if (sm.isEmpty())
         {
@@ -146,6 +149,9 @@ public class CategoryController implements Initializable {
             if (parent != null)
             {
                 parent.getChildren().remove(selectedItem);
+                DeleteBuilder<pmk_category,String> db = com.pmk_category.deleteBuilder();
+                db.where().eq("id",selectedItem.getValue().getId());
+                db.delete();
             }
             else
             {
@@ -218,6 +224,36 @@ public class CategoryController implements Initializable {
         }
     }
 
-    public void editButtonCategoryAction(ActionEvent actionEvent) {
+    public void editButtonCategoryAction(ActionEvent actionEvent) throws SQLException {
+        common com = new common();
+        TreeTableView.TreeTableViewSelectionModel<pmk_category> sm = kategTree.getSelectionModel();
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("редагувати категорію");
+        dialog.setHeaderText("");
+        ButtonType loginButtonType = new ButtonType("Редагувати", ButtonBar.ButtonData.OK_DONE);
+
+        ButtonType canselButtonType = new ButtonType("Відмінити", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, canselButtonType);
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+        TextField new_category = new TextField(sm.getSelectedItem().getValue().getCategory());
+        new_category.setPromptText("Категорія");
+        TextField new_percent = new TextField(""+sm.getSelectedItem().getValue().getPercent());
+        new_percent.setPromptText("Відсоток");
+        grid.add(new_category, 0, 0);
+        grid.add(new_percent, 0, 1);
+        dialog.getDialogPane().setContent(grid);
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+        UpdateBuilder<pmk_category,String> ub = com.pmk_category.updateBuilder();
+        ub.where().eq("id",sm.getSelectedItem().getValue().getId());
+        ub.updateColumnValue("category",new_category.getText());
+        ub.updateColumnValue("percent",new_percent.getText());
+        ub.update();
+        pmk_category.get(sm.getFocusedIndex()).setCategory(new_category.getText());
+        pmk_category.get(sm.getFocusedIndex()).setPercent(Double.valueOf(new_percent.getText()));
+        sm.getSelectedItem().setValue(pmk_category.get(sm.getFocusedIndex()));
+
     }
 }

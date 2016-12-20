@@ -2,6 +2,7 @@ package kpiaplication.common;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;
 
@@ -24,15 +25,18 @@ public class common {
    public Dao<pmk_product_id,String> pmk_product_id;
    public Dao<product_postach,String> product_postach;
    public Dao<pmk_category,String> pmk_category;
-   public common() throws SQLException{
+   public common() throws SQLException {
       this.produkt = DaoManager.createDao(con, Product.class);
       this.order = DaoManager.createDao(con, Order.class);
       this.user = DaoManager.createDao(con, Users.class);
       this.shop = DaoManager.createDao(con, Shop.class);
       this.pmk_product_id = DaoManager.createDao(con, pmk_product_id.class);
-      this.product_postach = DaoManager.createDao(con, kpiaplication.data.db.product_postach.class);
-      this.pmk_category = DaoManager.createDao(con, kpiaplication.data.db.pmk_category.class);
+      this.product_postach = DaoManager.createDao(con, product_postach.class);
+      this.pmk_category = DaoManager.createDao(con, pmk_category.class);
    }
+
+
+
    
 
 

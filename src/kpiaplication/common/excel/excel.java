@@ -172,7 +172,7 @@ public class excel {
                                 setValue(price,0),price_u,
                                 c.postach[1],
                                 kateg,
-                                setStatus(""+A.getContents(),setValue(price,0)),
+                                setStatus(""+B.getContents(),setValue(price,0)),
                                        I.getContents().toString(),kateg2);
                        c.produkt.create(p);  
 //                            }
@@ -566,10 +566,10 @@ public class excel {
     }
     
  
-    private String setStatus(String kod,Double price) throws SQLException{
+    public String setStatus(String art_postach,Double price) throws SQLException{
        String b="";
-       GenericRawResults<String[]> rawResults = c.pmk_product_id.queryRaw("SELECT kod_postach from product_postach where kod_postach='"+kod+"'");
-       GenericRawResults<String[]> priceResults = c.pmk_product_id.queryRaw("SELECT price_postach_rrc from product_postach where kod_postach='"+kod+"'");
+       GenericRawResults<String[]> rawResults = c.pmk_product_id.queryRaw("SELECT art_postach from product_postach where art_postach='"+art_postach+"'");
+       GenericRawResults<String[]> priceResults = c.pmk_product_id.queryRaw("SELECT price_postach_rrc from product_postach where kod_postach='"+art_postach+"'");
        if(rawResults.getFirstResult()==null){
            b="НОВЕ ПОСТУПЕЛННЯ"; 
        } 

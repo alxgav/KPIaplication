@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import kpiaplication.KPIaplication;
 import kpiaplication.common.common;
+import kpiaplication.common.excel.excel;
 import kpiaplication.common.messages.message;
 import kpiaplication.data.db.Product;
 import kpiaplication.data.db.pmk_category;
@@ -69,6 +70,7 @@ public class addToPMKController implements Initializable {
     private Stage dialogStage;
     private String kateg;
     private final ObservableList<product_postach> postach = FXCollections.observableArrayList();
+    private String art_p;
 
     int status = 1;
         @Override
@@ -86,7 +88,7 @@ public class addToPMKController implements Initializable {
         status=1;
         Double p =(product.getPrice()!=0)?product.getPrice():product.getPrice_u();
         pmk_deskr.setText(product.getDeskr());
-
+        art_p = product.getArtPost();
         pmk_id.setText(getLastID());
         try {
             com = new common();
@@ -122,12 +124,12 @@ public class addToPMKController implements Initializable {
 
     }
 
-    private boolean isFound(String pmk_id) throws SQLException {
+    private boolean isFound(String art_postach) throws SQLException {
         com = new common();
-        GenericRawResults<String[]> rawResults = com.pmk_product_id.queryRaw("SELECT pmk_id from pmk_product_id where pmk_id='"+pmk_id+"'");
+        GenericRawResults<String[]> rawResults = com.product_postach.queryRaw("SELECT art_postach from product_postach where art_postach='"+art_postach+"'");
         for(final String[] result:rawResults){
             if(result[0]!=null){
-                if(pmk_id.equals(result[0])){
+                if(art_postach.equals(result[0])){
                     return true;
                 }
             }
@@ -178,7 +180,7 @@ public class addToPMKController implements Initializable {
                     pmk_deskr.getText(),
                     Double.valueOf(pmk_price.getText()),pmk_garantText.getText());
             ppostach = new product_postach();
-            if(!isFound(pmk_id.getText())){
+            if(!isFound(art_p)){
                 com.pmk_product_id.create(pmk);
                 for(int i=0;i<=a.size()-1;i++){
 
@@ -203,7 +205,7 @@ public class addToPMKController implements Initializable {
             ub.updateColumnValue("pmk_id",pmk_id.getText());
             ub.update();
         }
-
+      //  String st = new excel().setStatus(art_p,Double.valueOf(pmk_price.getText()));
         dialogStage.close();
     }
 

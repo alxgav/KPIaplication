@@ -7,6 +7,8 @@ package kpiaplication.data.dbo;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import kpiaplication.common.common;
+
 import java.sql.SQLException;
 
 /**
@@ -15,10 +17,10 @@ import java.sql.SQLException;
  */
 public class dbConnection {
     
-    //final String databaseUrl = "jdbc:sqlite:db/kpidb.db"; 
-    final String databaseUrl = "jdbc:mysql://127.0.0.1:3306/kpidb";
+    //final String databaseUrl = "jdbc:sqlite:db/kpidb.db";
+    final String databaseUrl = new lib.file.ini.PropIni("s").ReadString("db");// new common().ini.ReadString("db");
     ConnectionSource con;
-     public dbConnection() {
+     public dbConnection() throws SQLException {
          try {
             con = new JdbcConnectionSource(databaseUrl);
         } catch (SQLException e) {
