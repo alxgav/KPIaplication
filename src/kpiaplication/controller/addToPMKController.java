@@ -124,7 +124,7 @@ public class addToPMKController implements Initializable {
 
     }
 
-    private boolean isFound(String art_postach) throws SQLException {
+    public boolean isFound(String art_postach) throws SQLException {
         com = new common();
         GenericRawResults<String[]> rawResults = com.product_postach.queryRaw("SELECT art_postach from product_postach where art_postach='"+art_postach+"'");
         for(final String[] result:rawResults){
@@ -180,7 +180,7 @@ public class addToPMKController implements Initializable {
                     pmk_deskr.getText(),
                     Double.valueOf(pmk_price.getText()),pmk_garantText.getText());
             ppostach = new product_postach();
-            if(!isFound(art_p)){
+         //   if(!isFound(art_p)){
                 com.pmk_product_id.create(pmk);
                 for(int i=0;i<=a.size()-1;i++){
 
@@ -193,9 +193,9 @@ public class addToPMKController implements Initializable {
                 }
 
 
-            } else{
-                new message().messgaeDLG("Знайдено","Знайдено ПМК","Знайдено співпадіння з ID:"+pmk_id.getText());
-            }
+           // } else{
+          //      new message().messgaeDLG("Знайдено","Знайдено ПМК","Знайдено співпадіння з ID:"+pmk_id.getText());
+          //  }
         }else{
             UpdateBuilder<pmk_product_id,String> ub = com.pmk_product_id.updateBuilder();
             ub.where().eq("pmk_id",pmk_id.getText());

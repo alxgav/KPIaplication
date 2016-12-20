@@ -103,6 +103,7 @@ public class MainController implements Initializable {
     public Button addCategoryButton;
     public Button delCategoryButton;
     public TableColumn postachTableCol22;
+    public Tab pmkTab;
     private Button clearButton = new Button();
     @FXML
     private Button testButton;
@@ -1002,7 +1003,7 @@ public class MainController implements Initializable {
         }
     }
 
-    public void mainTableKeyPressed(KeyEvent keyEvent) {
+    public void mainTableKeyPressed(KeyEvent keyEvent) throws SQLException {
         Product product = mainTable.getSelectionModel().getSelectedItem();
         KPIaplication kpi = new KPIaplication();
         product_postach pp= new product_postach();
@@ -1010,10 +1011,11 @@ public class MainController implements Initializable {
         ObservableList<TablePosition> selectedCells = FXCollections.observableArrayList();
         ObservableList<Product> si = mainTable.getSelectionModel().getSelectedItems();
 
-        if (keyEvent.getCode() == KeyCode.ENTER){
-            selectedCells.addAll(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size()-1));// .add(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size()-1));
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            selectedCells.addAll(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size() - 1));// .add(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size()-1));
             List<product_postach> plist = new ArrayList<>();
-            for(int i=0;i<=si.size()-1;i++){
+
+            for (int i = 0; i <= si.size() - 1; i++) {
                 pp = new product_postach(si.get(i).getPostach(),
                         si.get(i).getPrice(),
                         si.get(i).getPrice_u(),
@@ -1021,12 +1023,42 @@ public class MainController implements Initializable {
                         si.get(i).getArtPost());
                 plist.add(pp);
             }
-            kpi.showaddToPMK(product,plist);
+            if (isFound(pp.getArt_postach())) {
+                //  new message().messgaeDLG("Співпадіння записів","","Знайдено арт. постачальника "+pp.getArt_postach());
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Записи співпадають");
+                alert.setHeaderText("Знайдено запис арт " + pp.getArt_postach());
+                alert.setContentText("");
+                ButtonType buttonTypeYES = new ButtonType("Так");
+                ButtonType buttonTypeNO = new ButtonType("Ні", ButtonBar.ButtonData.CANCEL_CLOSE);
+                alert.getButtonTypes().setAll(buttonTypeYES, buttonTypeNO);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonTypeYES) {
+                    GenericRawResults<String[]> rawResults = c.product_postach.queryRaw("SELECT pmk_id from product_postach where art_postach='" + pp.getArt_postach() + "'");
+                    for (final String[] res : rawResults) {
+                        if (res[0] != null) {
+                            tabMain.getSelectionModel().select(3);
+                            pmkTable.getSelectionModel().select(3);
+                        }
+                    }
+                } else {
+                    kpi.showaddToPMK(product, plist);
+                }
+            }
+        }}
 
+    public boolean isFound(String art_postach) throws SQLException {
+        GenericRawResults<String[]> rawResults = c.product_postach.queryRaw("SELECT art_postach from product_postach where art_postach='"+art_postach+"'");
+        for(final String[] result:rawResults){
+            if(result[0]!=null){
+                if(art_postach.equals(result[0])){
+                    return true;
+                }
+            }
         }
-
-
+        return false;
     }
+
 
     public void addUserButtonAction(ActionEvent actionEvent) {
         userText.setText("");
