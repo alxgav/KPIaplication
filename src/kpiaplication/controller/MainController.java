@@ -5,7 +5,6 @@
  */
 package kpiaplication.controller;
 
-import com.github.sarxos.webcam.Webcam;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -31,7 +30,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -50,10 +48,7 @@ import kpiaplication.common.excel.excel;
 import kpiaplication.common.messages.message;
 import kpiaplication.data.db.*;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -136,7 +131,7 @@ public class MainController implements Initializable {
     private final ObservableList shop = FXCollections.observableArrayList();
     private final ObservableList user = FXCollections.observableArrayList();
     private final ObservableList user_list = FXCollections.observableArrayList();
-    private final ObservableList pmk_list = FXCollections.observableArrayList();
+    private final ObservableList<pmk_product_id> pmk_list = FXCollections.observableArrayList();
     private final ObservableList<pmk_category> pmk_category = FXCollections.observableArrayList();
 
    // private final ObservableList<String> postach = FXCollections.observableArrayList(c.postach);
@@ -1021,6 +1016,7 @@ public class MainController implements Initializable {
                         si.get(i).getPrice_u(),
                         si.get(i).getKod(),
                         si.get(i).getArtPost());
+
                 plist.add(pp);
             }
             if (isFound(pp.getArt_postach())) {
@@ -1035,10 +1031,16 @@ public class MainController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == buttonTypeYES) {
                     GenericRawResults<String[]> rawResults = c.product_postach.queryRaw("SELECT pmk_id from product_postach where art_postach='" + pp.getArt_postach() + "'");
+                    int i[] ={0};
                     for (final String[] res : rawResults) {
                         if (res[0] != null) {
                             tabMain.getSelectionModel().select(3);
-                            pmkTable.getSelectionModel().select(3);
+                            pmk_list.forEach((r)->{
+                                if(r.getPmk_id().equals(res[0])){
+                                    pmkTable.getSelectionModel().select(i[0]);
+                                }
+                             i[0]++;
+                            });
                         }
                     }
                 } else {
