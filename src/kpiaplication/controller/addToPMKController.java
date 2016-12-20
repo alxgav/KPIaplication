@@ -205,7 +205,8 @@ public class addToPMKController implements Initializable {
             ub.updateColumnValue("pmk_id",pmk_id.getText());
             ub.update();
         }
-      //  String st = new excel().setStatus(art_p,Double.valueOf(pmk_price.getText()));
+        String st = new excel().setStatus(art_p,Double.valueOf(pmk_price.getText()));
+        System.out.println("STAUS="+st);
         dialogStage.close();
     }
 
