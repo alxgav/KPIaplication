@@ -3,7 +3,6 @@ package kpiaplication.controller;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -180,7 +179,7 @@ public class addToPMKController implements Initializable {
                     pmk_deskr.getText(),
                     Double.valueOf(pmk_price.getText()),pmk_garantText.getText());
             ppostach = new product_postach();
-         //   if(!isFound(art_p)){
+
                 com.pmk_product_id.create(pmk);
                 for(int i=0;i<=a.size()-1;i++){
 
@@ -193,9 +192,7 @@ public class addToPMKController implements Initializable {
                 }
 
 
-           // } else{
-          //      new message().messgaeDLG("Знайдено","Знайдено ПМК","Знайдено співпадіння з ID:"+pmk_id.getText());
-          //  }
+
         }else{
             UpdateBuilder<pmk_product_id,String> ub = com.pmk_product_id.updateBuilder();
             ub.where().eq("pmk_id",pmk_id.getText());

@@ -1006,7 +1006,7 @@ public class MainController implements Initializable {
         ObservableList<TablePosition> selectedCells = FXCollections.observableArrayList();
         ObservableList<Product> si = mainTable.getSelectionModel().getSelectedItems();
 
-        if (keyEvent.getCode() == KeyCode.ENTER) {
+        if ((keyEvent.getCode() == KeyCode.ENTER)||(keyEvent.getCode() == KeyCode.INSERT)) {
             selectedCells.addAll(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size() - 1));// .add(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size()-1));
             List<product_postach> plist = new ArrayList<>();
 
