@@ -1000,54 +1000,10 @@ public class MainController implements Initializable {
     }
 
     public void mainTableKeyPressed(KeyEvent keyEvent) throws SQLException {
-        Product product = mainTable.getSelectionModel().getSelectedItem();
-        KPIaplication kpi = new KPIaplication();
-        product_postach pp= new product_postach();
-        mainTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        ObservableList<TablePosition> selectedCells = FXCollections.observableArrayList();
-        ObservableList<Product> si = mainTable.getSelectionModel().getSelectedItems();
+
 
         if ((keyEvent.getCode() == KeyCode.ENTER)||(keyEvent.getCode() == KeyCode.INSERT)) {
-            selectedCells.addAll(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size() - 1));// .add(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size()-1));
-            List<product_postach> plist = new ArrayList<>();
-
-            for (int i = 0; i <= si.size() - 1; i++) {
-                pp = new product_postach(si.get(i).getPostach(),
-                        si.get(i).getPrice(),
-                        si.get(i).getPrice_u(),
-                        si.get(i).getKod(),
-                        si.get(i).getArtPost());
-
-                plist.add(pp);
-            }
-            if (isFound(pp.getArt_postach())) {
-                //  new message().messgaeDLG("Співпадіння записів","","Знайдено арт. постачальника "+pp.getArt_postach());
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Записи співпадають");
-                alert.setHeaderText("Знайдено запис арт " + pp.getArt_postach());
-                alert.setContentText("");
-                ButtonType buttonTypeYES = new ButtonType("Так");
-                ButtonType buttonTypeNO = new ButtonType("Ні", ButtonBar.ButtonData.CANCEL_CLOSE);
-                alert.getButtonTypes().setAll(buttonTypeYES, buttonTypeNO);
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == buttonTypeYES) {
-                    GenericRawResults<String[]> rawResults = c.product_postach.queryRaw("SELECT pmk_id from product_postach where art_postach='" + pp.getArt_postach() + "'");
-                    int i[] ={0};
-                    for (final String[] res : rawResults) {
-                        if (res[0] != null) {
-                            tabMain.getSelectionModel().select(3);
-                            pmk_list.forEach((r)->{
-                                if(r.getPmk_id().equals(res[0])){
-                                    pmkTable.getSelectionModel().select(i[0]);
-                                }
-                             i[0]++;
-                            });
-                        }
-                    }
-                } else {
-                    kpi.showaddToPMK(product, plist);
-                }
-            }
+            insertToPmk();
         }}
 
     public boolean isFound(String art_postach) throws SQLException {
@@ -1119,7 +1075,11 @@ public class MainController implements Initializable {
     }
 
 
-    public void addPMKButtonAction(ActionEvent actionEvent) throws SQLException {
+    public void addPMKButtonAction(ActionEvent actionEvent) {
+        insertToPmk();
+    }
+
+    private void insertToPmk(){
         Product product = mainTable.getSelectionModel().getSelectedItem();
         KPIaplication kpi = new KPIaplication();
         product_postach pp= new product_postach();
@@ -1128,7 +1088,6 @@ public class MainController implements Initializable {
         ObservableList<Product> si = mainTable.getSelectionModel().getSelectedItems();
         selectedCells.addAll(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size() - 1));// .add(mainTable.getSelectionModel().getSelectedCells().get(mainTable.getSelectionModel().getSelectedCells().size()-1));
         List<product_postach> plist = new ArrayList<>();
-        System.out.println("ddddd");
         for (int i = 0; i <= si.size() - 1; i++) {
             pp = new product_postach(si.get(i).getPostach(),
                     si.get(i).getPrice(),
@@ -1138,33 +1097,43 @@ public class MainController implements Initializable {
 
             plist.add(pp);
         }
-        if (isFound(pp.getArt_postach())) {
-            //  new message().messgaeDLG("Співпадіння записів","","Знайдено арт. постачальника "+pp.getArt_postach());
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Записи співпадають");
-            alert.setHeaderText("Знайдено запис арт " + pp.getArt_postach());
-            alert.setContentText("");
-            ButtonType buttonTypeYES = new ButtonType("Так");
-            ButtonType buttonTypeNO = new ButtonType("Ні", ButtonBar.ButtonData.CANCEL_CLOSE);
-            alert.getButtonTypes().setAll(buttonTypeYES, buttonTypeNO);
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == buttonTypeYES) {
-                GenericRawResults<String[]> rawResults = c.product_postach.queryRaw("SELECT pmk_id from product_postach where art_postach='" + pp.getArt_postach() + "'");
-                int i[] ={0};
-                for (final String[] res : rawResults) {
-                    if (res[0] != null) {
-                        tabMain.getSelectionModel().select(3);
-                        pmk_list.forEach((r)->{
-                            if(r.getPmk_id().equals(res[0])){
-                                pmkTable.getSelectionModel().select(i[0]);
-                            }
-                            i[0]++;
-                        });
+        try {
+            if (isFound(pp.getArt_postach())) {
+                //  new message().messgaeDLG("Співпадіння записів","","Знайдено арт. постачальника "+pp.getArt_postach());
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Записи співпадають");
+                alert.setHeaderText("Знайдено запис арт " + pp.getArt_postach());
+                alert.setContentText("");
+                ButtonType buttonTypeYES = new ButtonType("Так");
+                ButtonType buttonTypeNO = new ButtonType("Ні", ButtonData.CANCEL_CLOSE);
+                alert.getButtonTypes().setAll(buttonTypeYES, buttonTypeNO);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonTypeYES) {
+                    GenericRawResults<String[]> rawResults = c.product_postach.queryRaw("SELECT pmk_id from product_postach where art_postach='" + pp.getArt_postach() + "'");
+                    int i[] ={0};
+                    for (final String[] res : rawResults) {
+                        if (res[0] != null) {
+                            tabMain.getSelectionModel().select(3);
+                            pmk_list.forEach((r)->{
+                                if(r.getPmk_id().equals(res[0])){
+                                    pmkTable.getSelectionModel().select(i[0]);
+                                }
+                                i[0]++;
+                            });
+                        }
                     }
+
+
+                } else{
+
                 }
-            } else {
+
+            }
+            else {
                 kpi.showaddToPMK(product, plist);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

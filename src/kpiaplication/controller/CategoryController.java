@@ -15,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import javafx.util.StringConverter;
 import kpiaplication.common.common;
 import kpiaplication.common.messages.message;
 import kpiaplication.data.db.pmk_category;
@@ -25,7 +24,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
 
 
 /**
@@ -254,6 +252,6 @@ public class CategoryController implements Initializable {
         pmk_category.get(sm.getFocusedIndex()).setCategory(new_category.getText());
         pmk_category.get(sm.getFocusedIndex()).setPercent(Double.valueOf(new_percent.getText()));
         sm.getSelectedItem().setValue(pmk_category.get(sm.getFocusedIndex()));
-
+        kategTree.refresh();
     }
 }

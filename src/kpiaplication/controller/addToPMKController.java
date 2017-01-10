@@ -204,6 +204,9 @@ public class addToPMKController implements Initializable {
         }
         String st = new excel().setStatus(art_p,Double.valueOf(pmk_price.getText()));
         System.out.println("STAUS="+st);
+        /*
+        add change status
+         */
         dialogStage.close();
     }
 
