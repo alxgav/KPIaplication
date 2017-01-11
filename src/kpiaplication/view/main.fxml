@@ -29,10 +29,13 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpiaplication.controller.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpiaplication.controller.MainController">
    <stylesheets>
         <URL value="@/kpiaplication/style/style.css" />
     </stylesheets>
@@ -43,7 +46,7 @@
             <Button fx:id="addOrderButton" mnemonicParsing="false" onAction="#addOrderButtonAction" styleClass="addOrderButtonClass" text="Додати" />
             <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
             <Button fx:id="deleteOrderButton" mnemonicParsing="false" onAction="#deleteOrderButtonAction" text="Видалити замовлення" />
-            <Button fx:id="addPMKButton" mnemonicParsing="false" onAction="#addPMKButtonAction" text="Додати до ПМК" />
+            <Button fx:id="addPMKButton" disable="true" mnemonicParsing="false" onAction="#addPMKButtonAction" text="Додати до ПМК" />
          </items></ToolBar>
    </top>
    <center>
@@ -151,26 +154,26 @@
                   </TableView>
                </content>
           </Tab>
-            <Tab fx:id="settingTab" disable="true" text="Налаштування">
+            <Tab fx:id="settingTab" text="Налаштування">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <TextField fx:id="userText" layoutX="14.0" layoutY="22.0" promptText="USER" />
                         <PasswordField fx:id="password1" layoutX="14.0" layoutY="52.0" promptText="PASSWORD" />
-                        <PasswordField fx:id="password2" layoutX="14.0" layoutY="85.0" promptText="PASSWORD 2" />
-                        <Button fx:id="createeditButton" layoutX="14.0" layoutY="389.0" mnemonicParsing="false" onAction="#createeditButtonAction" prefHeight="25.0" prefWidth="151.0" text="СТВОРИТИ/ЗМІНИТИ" />
-                        <ComboBox fx:id="shopBox" layoutX="14.0" layoutY="122.0" prefWidth="150.0" promptText="МАГАЗИНИ" />
-                        <CheckBox fx:id="status" layoutX="14.0" layoutY="159.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" text="АДМІНІСТРАТОР" />
+                        <PasswordField fx:id="password2" layoutX="14.0" layoutY="84.0" promptText="PASSWORD 2" />
+                        <Button fx:id="createeditButton" layoutX="22.0" layoutY="461.0" mnemonicParsing="false" onAction="#createeditButtonAction" prefHeight="25.0" prefWidth="151.0" text="СТВОРИТИ/ЗМІНИТИ" />
+                        <ComboBox fx:id="shopBox" layoutX="14.0" layoutY="117.0" prefWidth="150.0" promptText="МАГАЗИНИ" />
+                        <CheckBox fx:id="status" layoutX="23.0" layoutY="213.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" text="АДМІНІСТРАТОР" />
                         <Button fx:id="addShopButton" layoutX="173.0" layoutY="52.0" mnemonicParsing="false" onAction="#addShopButtonAction" prefHeight="25.0" prefWidth="106.0" text="Додати магазин" />
-                        <ListView fx:id="userList" layoutX="14.0" layoutY="182.0" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="userList" layoutX="22.0" layoutY="242.0" prefHeight="200.0" prefWidth="200.0" />
                         <Separator layoutX="284.0" layoutY="22.0" orientation="VERTICAL" prefHeight="439.0" prefWidth="10.0" />
                         <Button fx:id="addUserButton" layoutX="171.0" layoutY="22.0" mnemonicParsing="false" onAction="#addUserButtonAction" prefHeight="15.0" prefWidth="107.0" text="Додати користувача" />
-                        <Button fx:id="deleteShopButton" layoutX="171.0" layoutY="85.0" mnemonicParsing="false" onAction="#deleteShopButtonAction" prefHeight="25.0" prefWidth="109.0" text="Видалити магазин" />
+                        <Button fx:id="deleteShopButton" layoutX="170.0" layoutY="84.0" mnemonicParsing="false" onAction="#deleteShopButtonAction" prefHeight="25.0" prefWidth="109.0" text="Видалити магазин" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="pmkTab" text="ПМК">
+            <Tab fx:id="pmkTab" disable="true" text="ПМК">
               
              
                <content>
@@ -248,7 +251,7 @@
 
                </content>
             </Tab>
-            <Tab text="Категорії">
+            <Tab disable="true" text="Категорії">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -271,6 +274,55 @@
                      </children>
                   </AnchorPane>
               </content>
+            </Tab>
+            <Tab fx:id="settingTab1" text="Налаштування">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <items>
+                            <Button mnemonicParsing="false" text="Додати користувача" />
+                              <Button mnemonicParsing="false" text="Зберегти" />
+                              <Button mnemonicParsing="false" text="Редагувати" />
+                              <Button mnemonicParsing="false" text="Видалити" />
+                          </items>
+                        </ToolBar>
+                     </top>
+                     <left>
+                        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <columns>
+                            <TableColumn prefWidth="200.0" text="КОРИСТУВАЧІ" />
+                          </columns>
+                        </TableView>
+                     </left>
+                     <center>
+                        <GridPane BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="292.0" minWidth="10.0" prefWidth="203.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="177.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="221.0" minHeight="0.0" prefHeight="66.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="334.0" minHeight="0.0" prefHeight="72.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="428.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="428.0" minHeight="10.0" prefHeight="285.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <TextField fx:id="userText1" promptText="USER">
+                                 <GridPane.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </GridPane.margin>
+                              </TextField>
+                              <PasswordField fx:id="password11" promptText="PASSWORD" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="status1" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" text="АДМІНІСТРАТОР" GridPane.columnIndex="1" />
+                              <PasswordField fx:id="password21" promptText="PASSWORD 2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="shopBox1" prefHeight="25.0" prefWidth="197.0" promptText="МАГАЗИНИ" GridPane.rowIndex="2" />
+                              <Button fx:id="addShopButton1" mnemonicParsing="false" onAction="#addShopButtonAction" prefHeight="25.0" prefWidth="106.0" text="Додати магазин" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </center>
+                  </BorderPane>
+               </content>
             </Tab>
         </tabs>
       </TabPane>

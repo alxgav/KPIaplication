@@ -308,6 +308,7 @@ public class MainController implements Initializable {
         tabSelect();
         tableCellRenderer();
        mainTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+       // addPMKButton.setVisible(false);
         try {
             showUsers();
 
@@ -900,6 +901,10 @@ public class MainController implements Initializable {
                     if(status_user){
                       settingTab.setDisable(false);
                       loadPrice.setDisable(false);
+                      pmkTab.setDisable(false);
+
+                        addPMKButton.setDisable(false);
+                       // addPMKButton.setVisible(true);
                     }
                     showShop();
                 } catch (SQLException ex) {
