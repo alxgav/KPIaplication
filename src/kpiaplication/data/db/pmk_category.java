@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by alxga on 03.12.2016.
  */
 @DatabaseTable(tableName = "pmk_category")
-public class pmk_category {
+public class pmk_category  {
     @DatabaseField(generatedId = true)
     private Integer id;
     @DatabaseField

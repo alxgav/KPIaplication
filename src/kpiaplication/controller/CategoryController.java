@@ -198,6 +198,7 @@ public class CategoryController implements Initializable {
                         categoryRoot.getChildren().add(parentCategory);
 
                     }
+
                 });
             }else{
 
