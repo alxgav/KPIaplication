@@ -34,7 +34,6 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
@@ -69,7 +68,8 @@ import java.util.logging.Logger;
  */
 public class MainController implements Initializable {
 
-
+    public  Order order;
+    public Users  users;
     @FXML
     public TabPane tabMain;
     //private KPIaplication kpi;
@@ -84,12 +84,8 @@ public class MainController implements Initializable {
     public TableColumn postachTableCol3;
     public TableColumn postachTableCol4;
     public Button edit_pmk;
-    public Button save_pmk;
     public Button delete_pmk;
     public TextField searchPmk;
-    public Region region;
-    public Button addUserButton;
-    public Button deleteShopButton;
     public TableColumn kategColumn2;
     public TableColumn garantColumn;
     public TreeTableView  <pmk_category> kategTree;
@@ -100,6 +96,18 @@ public class MainController implements Initializable {
     public TableColumn postachTableCol22;
     public Tab pmkTab;
     public Button addPMKButton;
+    /*
+    users
+     */
+    public Button adduser;
+    public Button saveuser;
+    public Button editUser;
+    public Button deleteUser;
+    public TableView<Users> userTable;
+    public TableColumn<Users, String> userColumn;
+    /*
+    end users
+     */
     private Button clearButton = new Button();
     @FXML
     private Button testButton;
@@ -117,9 +125,7 @@ public class MainController implements Initializable {
     private TableColumn<Product, Double> priceColumn;
    
     common c;
-   public  Order order;
-   public Users  users;
-   public  pmk_product_id pmk_product;
+
     /**
      * Initializes the controller class.
      */
@@ -131,7 +137,7 @@ public class MainController implements Initializable {
     private final ObservableList postach = FXCollections.observableArrayList();
     private final ObservableList shop = FXCollections.observableArrayList();
     private final ObservableList user = FXCollections.observableArrayList();
-    private final ObservableList user_list = FXCollections.observableArrayList();
+    private final ObservableList<Users> user_list = FXCollections.observableArrayList();
     private final ObservableList<pmk_product_id> pmk_list = FXCollections.observableArrayList();
     private final ObservableList<pmk_category> pmk_category = FXCollections.observableArrayList();
 
@@ -272,7 +278,7 @@ public class MainController implements Initializable {
        stOrderColumn.setCellValueFactory(new PropertyValueFactory<>("st"));
        SumaOrderColumn.setCellValueFactory(new PropertyValueFactory<>("summa"));
        ShopOrderColumn.setCellValueFactory(new PropertyValueFactory<>("shop"));
-       dateOrderColumn.setCellValueFactory(new PropertyValueFactory<Order,CustomDate>("order_date"));
+       dateOrderColumn.setCellValueFactory(new PropertyValueFactory<Order, CustomDate>("order_date"));
        categoryColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("category"));
        categoryTest.setCellValueFactory(new TreeItemPropertyValueFactory<>("percent"));
 
@@ -310,35 +316,36 @@ public class MainController implements Initializable {
        mainTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
        // addPMKButton.setVisible(false);
         try {
-            showUsers();
+            getUserList();
+            userChanged();
 
         } catch (SQLException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             new lib.messages.error.errorMessage().error(ex.toString());
         }
 
-         userList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
-           @Override
-           public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-               try {
-                   System.out.println(newValue.toString());
-                   QueryBuilder<Users,String> qb_user = c.user.queryBuilder();
-                   qb_user.where().eq("user_name",newValue.toString());
-                   PreparedQuery<Users> preparedQuery = qb_user.prepare();
-                   List <Users> p = c.user.query(preparedQuery);
-                   userText.setText(newValue.toString());
-                   status.setSelected(p.get(0).isStatus());
-                   password1.setText(p.get(0).getPassword());
-                   password2.setText(p.get(0).getPassword());
-                   shopBox.setValue(p.get(0).getShop());
 
-               } catch (SQLException ex) {
-                   Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-                   new lib.messages.error.errorMessage().error(ex.toString());
-               }
-           }
-
-         });
+//         userList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener(){
+//           @Override
+//           public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+//               try {
+//                   System.out.println(newValue.toString());
+//                   QueryBuilder<Users,String> qb_user = c.user.queryBuilder();
+//                   qb_user.where().eq("user_name",newValue.toString());
+//                   PreparedQuery<Users> preparedQuery = qb_user.prepare();
+//                   List <Users> p = c.user.query(preparedQuery);
+//                   userText.setText(newValue.toString());
+//                   status.setSelected(p.get(0).isStatus());
+//                   password1.setText(p.get(0).getPassword());
+//                   password2.setText(p.get(0).getPassword());
+//                   shopBox.setValue(p.get(0).getShop());
+//
+//               } catch (SQLException ex) {
+//                   Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+//                   new lib.messages.error.errorMessage().error(ex.toString());
+//               }
+//           }
+//
+//         });
 
         changePostach_product();
 
@@ -349,7 +356,8 @@ public class MainController implements Initializable {
         }
     }
     
-   
+
+
     @FXML
     private void testButtonAction(ActionEvent event) {
         try {
@@ -425,6 +433,17 @@ public class MainController implements Initializable {
         });
 
         pmkTable.setItems(pmk_list);
+    }
+
+    private void getUserList() throws SQLException {
+         user_list.clear();
+         QueryBuilder<Users, String> qb = c.user.queryBuilder();
+         PreparedQuery<Users> pq = qb.prepare();
+         List<Users> user = c.user.query(pq);
+         user.forEach((r)->{
+             user_list.add(r);
+         });
+         userTable.setItems(user_list);
     }
 
     private void setCategoryTree() throws SQLException {
@@ -548,6 +567,31 @@ public class MainController implements Initializable {
 
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+        });
+    }
+
+    /*
+    change user
+     */
+    private void userChanged(){
+        userTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+          //  Users  u = newValue;
+            QueryBuilder<Users,String> qb = c.user.queryBuilder();
+            if(newValue.getUser_name()!=null){
+                try {
+                    qb.where().eq("user_name",newValue.getUser_name());
+                    PreparedQuery<Users> pq = qb.prepare();
+                    List<Users> p = c.user.query(pq);
+                    userText.setText(p.get(0).getUser_name());
+                   status.setSelected(p.get(0).isStatus());
+                   password1.setText(p.get(0).getPassword());
+                   password2.setText(p.get(0).getPassword());
+                   shopBox.setValue(p.get(0).getShop());
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -687,38 +731,38 @@ public class MainController implements Initializable {
          clipboard.setContent(content);
     }
 
-    @FXML
-    private void createeditButtonAction(ActionEvent event) throws SQLException {
-        String user_login = userText.getText();
-        String password = password1.getText();
-        String password_sec = password2.getText();
-        boolean stat = false;
-
-        if(password.equals(password_sec)){
-           if (status.isSelected()){
-               stat = true;
-           } 
-           users = new Users(user_login,password,stat,""+shopBox.getSelectionModel().getSelectedItem());
-           if(user_login.equals(userList.getSelectionModel().getSelectedItem())){
-               UpdateBuilder<Users,String> ub = c.user.updateBuilder();
-               ub.where().eq("user_name",user_login);
-               ub.updateColumnValue("user_name",user_login);
-               ub.updateColumnValue("password",password);
-               ub.updateColumnValue("status",stat);
-               ub.updateColumnValue("shop",shopBox.getSelectionModel().getSelectedItem());
-               ub.update();
-               //c.user.update(users);
-           } else{
-               user.add(users);
-               user_list.add(user_login);
-               userList.setItems(user_list);
-               c.user.create(user);
-           }
-
-        }else{
-            new message().messgaeDLG("Неможливо записати", "", "Паролі не співпадають");
-        }
-    }
+//    @FXML
+//    private void createeditButtonAction(ActionEvent event) throws SQLException {
+//        String user_login = userText.getText();
+//        String password = password1.getText();
+//        String password_sec = password2.getText();
+//        boolean stat = false;
+//
+//        if(password.equals(password_sec)){
+//           if (status.isSelected()){
+//               stat = true;
+//           }
+//           users = new Users(user_login,password,stat,""+shopBox.getSelectionModel().getSelectedItem());
+//           if(user_login.equals(userList.getSelectionModel().getSelectedItem())){
+//               UpdateBuilder<Users,String> ub = c.user.updateBuilder();
+//               ub.where().eq("user_name",user_login);
+//               ub.updateColumnValue("user_name",user_login);
+//               ub.updateColumnValue("password",password);
+//               ub.updateColumnValue("status",stat);
+//               ub.updateColumnValue("shop",shopBox.getSelectionModel().getSelectedItem());
+//               ub.update();
+//               //c.user.update(users);
+//           } else{
+//               user.add(users);
+//               user_list.add(user_login);
+//               userList.setItems(user_list);
+//               c.user.create(user);
+//           }
+//
+//        }else{
+//            new message().messgaeDLG("Неможливо записати", "", "Паролі не співпадають");
+//        }
+//    }
 
     @FXML
     private void addShopButtonAction(ActionEvent event) throws SQLException {
@@ -745,14 +789,13 @@ public class MainController implements Initializable {
         shopBox.setItems(shop);
     }
     
-    private void showUsers() throws SQLException{
-        GenericRawResults<String[]> rawResults =  c.user.queryRaw("SELECT user_name from users"); 
-        for(String res[]:rawResults){
-            user_list.add(res[0]);
-        }
-        userList.setItems(user_list);
-        
-    }
+//    private void showUsers() throws SQLException{
+//        GenericRawResults<String[]> rawResults =  c.user.queryRaw("SELECT user_name from users");
+//        for(String res[]:rawResults){
+//            user_list.add(res[0]);
+//        }
+//        userTable.setItems(user_list);
+//    }
     
 
     @FXML
@@ -1140,5 +1183,17 @@ public class MainController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void adduserAction(ActionEvent actionEvent) {
+    }
+
+    public void saveuserAction(ActionEvent actionEvent) {
+    }
+
+    public void editUserAction(ActionEvent actionEvent) {
+    }
+
+    public void deleteUserAction(ActionEvent actionEvent) {
     }
 }
