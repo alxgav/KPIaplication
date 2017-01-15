@@ -72,7 +72,6 @@ public class MainController implements Initializable {
     public Users  users;
     @FXML
     public TabPane tabMain;
-    //private KPIaplication kpi;
 
     @FXML
     public TableColumn <Product, String> kategColumn;
@@ -108,9 +107,7 @@ public class MainController implements Initializable {
     /*
     end users
      */
-    private Button clearButton = new Button();
-    @FXML
-    private Button testButton;
+
     @FXML
     private TableView<Product> mainTable;
     @FXML
@@ -141,7 +138,6 @@ public class MainController implements Initializable {
     private final ObservableList<pmk_product_id> pmk_list = FXCollections.observableArrayList();
     private final ObservableList<pmk_category> pmk_category = FXCollections.observableArrayList();
 
-   // private final ObservableList<String> postach = FXCollections.observableArrayList(c.postach);
     @FXML
     private TextField seachtext;
     @FXML
@@ -451,9 +447,7 @@ public class MainController implements Initializable {
         QueryBuilder<pmk_category,String> qb = c.pmk_category.queryBuilder();
         PreparedQuery<pmk_category> pq = qb.prepare();
         List<pmk_category> category = c.pmk_category.query(pq);
-        category.forEach((r)->{
-            pmk_category.add(r);
-        });
+        category.forEach((r)-> pmk_category.add(r));
         TreeItem<pmk_category> root = new TreeItem<>();
         root.setExpanded(true);
         kategTree.setShowRoot(false);
@@ -472,7 +466,10 @@ public class MainController implements Initializable {
                     }
                 });
             }else{
-
+                pmk_category.forEach((n)->{
+                    TreeItem<pmk_category> parentCategory = new TreeItem<>(n);
+                    categoryRoot.getChildren().add(parentCategory);
+                });
             }
         });
 
@@ -789,14 +786,6 @@ public class MainController implements Initializable {
         shopBox.setItems(shop);
     }
     
-//    private void showUsers() throws SQLException{
-//        GenericRawResults<String[]> rawResults =  c.user.queryRaw("SELECT user_name from users");
-//        for(String res[]:rawResults){
-//            user_list.add(res[0]);
-//        }
-//        userTable.setItems(user_list);
-//    }
-    
 
     @FXML
     private void addOrderButtonAction(ActionEvent event) throws SQLException {
@@ -1067,12 +1056,12 @@ public class MainController implements Initializable {
     }
 
 
-    public void addUserButtonAction(ActionEvent actionEvent) {
-        userText.setText("");
-        password1.setText("");
-        password2.setText("");
-        shopBox.getSelectionModel().selectFirst();
-    }
+//    public void addUserButtonAction(ActionEvent actionEvent) {
+//        userText.setText("");
+//        password1.setText("");
+//        password2.setText("");
+//        shopBox.getSelectionModel().selectFirst();
+//    }
 
     public void deleteShopButtonAction(ActionEvent actionEvent) throws SQLException {
         Alert alert = new Alert(AlertType.WARNING);
@@ -1186,14 +1175,67 @@ public class MainController implements Initializable {
     }
 
     public void adduserAction(ActionEvent actionEvent) {
+        userText.setText("");
+        password1.setText("");
+        password2.setText("");
+        status.setSelected(false);
+        status.setDisable(false);
+        shopBox.setDisable(false);
+        addShopButton.setDisable(false);
+        shopBox.getSelectionModel().selectFirst();
     }
 
-    public void saveuserAction(ActionEvent actionEvent) {
+    public void saveuserAction(ActionEvent actionEvent) throws SQLException {
+        String user_login = userText.getText();
+        String password = password1.getText();
+        String password_sec = password2.getText();
+        boolean stat = false;
+
+        if(password.equals(password_sec)){
+           if (status.isSelected()){
+               stat = true;
+           }
+           users = new Users(user_login,password,stat,""+shopBox.getSelectionModel().getSelectedItem());
+           if(user_login.equals(userTable.getSelectionModel().getSelectedItem())){
+               UpdateBuilder<Users,String> ub = c.user.updateBuilder();
+               ub.where().eq("user_name",user_login);
+               ub.updateColumnValue("user_name",user_login);
+               ub.updateColumnValue("password",password);
+               ub.updateColumnValue("status",stat);
+               ub.updateColumnValue("shop",shopBox.getSelectionModel().getSelectedItem());
+               ub.update();
+           } else{
+               user_list.add(users);
+               userTable.setItems(user_list);
+               c.user.create(user);
+           }
+
+        }else{
+            new message().messgaeDLG("Неможливо записати", "", "Паролі не співпадають");
+        }
     }
 
     public void editUserAction(ActionEvent actionEvent) {
+        status.setSelected(false);
+        shopBox.setDisable(false);
+        addShopButton.setDisable(false);
     }
 
-    public void deleteUserAction(ActionEvent actionEvent) {
-    }
+    public void deleteUserAction(ActionEvent actionEvent) throws SQLException {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Видалити запис");
+        alert.setHeaderText("Видалити запис");
+        alert.setContentText("Ви впевнені?");
+        ButtonType buttonTypeYES = new ButtonType("ТАК");
+        ButtonType buttonTypeNO = new ButtonType("НІ",ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(buttonTypeYES, buttonTypeNO);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeYES){
+
+            DeleteBuilder<Users,String> deleteBuilder = c.user.deleteBuilder();
+            Users o = userTable.getSelectionModel().getSelectedItem();
+            deleteBuilder.where().eq("id",o.getId());
+            deleteBuilder.delete();
+            user_list.remove(o);
+    }}
 }
