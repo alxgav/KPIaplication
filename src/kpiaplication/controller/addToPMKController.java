@@ -35,6 +35,7 @@ import java.util.ResourceBundle;
 public class addToPMKController implements Initializable {
     public TableColumn postachTableCol31;
     public TextField pmk_garantText;
+    public TableColumn postachTableCol_ric;
     @FXML
     private TextField pmk_id = new TextField() ;
     @FXML
@@ -186,6 +187,7 @@ public class addToPMKController implements Initializable {
                     com.product_postach.create(new product_postach(pmk_id.getText(),
                             a.get(i).getPostach(),
                             a.get(i).getPrice_postach_rrc(),
+                            a.get(i).getPrice_postach_ric(),
                             a.get(i).getPrice_postach_rrc2(),
                             a.get(i).getKod_postach(),
                             a.get(i).getArt_postach()));

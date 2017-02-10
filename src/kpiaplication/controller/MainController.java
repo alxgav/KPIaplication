@@ -104,6 +104,8 @@ public class MainController implements Initializable {
     public Button deleteUser;
     public TableView<Users> userTable;
     public TableColumn<Users, String> userColumn;
+    public TableColumn price3Col;
+    public TableColumn postachTableCol_ric;
     /*
     end users
      */
@@ -472,8 +474,6 @@ public class MainController implements Initializable {
                 });
             }
         });
-
-
 
         kategTree.setRoot(root);
 
@@ -1128,6 +1128,7 @@ public class MainController implements Initializable {
         for (int i = 0; i <= si.size() - 1; i++) {
             pp = new product_postach(si.get(i).getPostach(),
                     si.get(i).getPrice(),
+                    si.get(i).getPrice_i(),
                     si.get(i).getPrice_u(),
                     si.get(i).getKod(),
                     si.get(i).getArtPost());
@@ -1183,8 +1184,9 @@ public class MainController implements Initializable {
         shopBox.setDisable(false);
         addShopButton.setDisable(false);
         shopBox.getSelectionModel().selectFirst();
+        edit= false;
     }
-
+    private boolean edit = true;
     public void saveuserAction(ActionEvent actionEvent) throws SQLException {
         String user_login = userText.getText();
         String password = password1.getText();
@@ -1196,7 +1198,7 @@ public class MainController implements Initializable {
                stat = true;
            }
            users = new Users(user_login,password,stat,""+shopBox.getSelectionModel().getSelectedItem());
-           if(user_login.equals(userTable.getSelectionModel().getSelectedItem())){
+           if(edit){
                UpdateBuilder<Users,String> ub = c.user.updateBuilder();
                ub.where().eq("user_name",user_login);
                ub.updateColumnValue("user_name",user_login);
@@ -1219,6 +1221,8 @@ public class MainController implements Initializable {
         status.setSelected(false);
         shopBox.setDisable(false);
         addShopButton.setDisable(false);
+        status.setDisable(false);
+        edit = true;
     }
 
     public void deleteUserAction(ActionEvent actionEvent) throws SQLException {

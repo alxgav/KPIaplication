@@ -30,6 +30,8 @@ public class Product  {
     @DatabaseField
     private Double price;
     @DatabaseField
+    private Double price_i;
+    @DatabaseField
     private Double price_u;
     @DatabaseField
     private String postach;
@@ -47,26 +49,28 @@ public class Product  {
     public Product() {
     }
 
-    public Product(String kod, String artPost, String deskr, String magazin, Double price, Double price_u, String postach, String kateg, String status, String garant) {
+    public Product(String kod, String artPost, String deskr, String magazin, Double price, Double price_u, Double price_i, String postach, String kateg, String status, String garant) {
         this.kod = kod;
         this.artPost = artPost;
         this.deskr = deskr;
         this.magazin = magazin;
         this.price = price;
         this.price_u = price_u;
+        this.price_i = price_i;
         this.postach = postach;
         this.kateg = kateg;
         this.status = status;
         this.garant = garant;
     }
 
-    public Product(String kod, String artPost, String deskr, String magazin, Double price, Double price_u, String postach, String kateg, String status, String garant, String kateg2) {
+    public Product(String kod, String artPost, String deskr, String magazin, Double price, Double price_u, Double price_i, String postach, String kateg, String status, String garant, String kateg2) {
         this.kod = kod;
         this.artPost = artPost;
         this.deskr = deskr;
         this.magazin = magazin;
         this.price = price;
         this.price_u = price_u;
+        this.price_i = price_i;
         this.postach = postach;
         this.kateg = kateg;
         this.status = status;
@@ -173,5 +177,13 @@ public class Product  {
 
     public void setKateg2(String kateg2) {
         this.kateg2 = kateg2;
+    }
+
+    public Double getPrice_i() {
+        return price_i;
+    }
+
+    public void setPrice_i(Double price_i) {
+        this.price_i = price_i;
     }
 }
